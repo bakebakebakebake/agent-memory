@@ -155,10 +155,14 @@
 ### 文档
 
 - 完善 `README.md`
+- 新增版本变更记录：
+  - `CHANGELOG.md`
 - 新增 benchmark 文档：
   - `docs/benchmark-results.md`
 - 新增 MCP 集成文档：
   - `docs/mcp-integration.md`
+- 新增发布与 PyPI 操作文档：
+  - `docs/release-and-pypi.md`
 - 新增扩展优化建议文档：
   - `docs/plans/2026-03-24-agent-memory-expansion-review.md`
 

@@ -1,3 +1,6 @@
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version
+
 from agent_memory.client import MemoryClient
 from agent_memory.models import (
     ConflictRecord,
@@ -31,3 +34,8 @@ __all__ = [
     "SearchResult",
     "TraceReport",
 ]
+
+try:
+    __version__ = version("agent-memory-engine")
+except PackageNotFoundError:
+    __version__ = "0.0.0"

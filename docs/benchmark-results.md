@@ -1,5 +1,7 @@
 # Benchmark Results
 
+[English](benchmark-results.md) | [简体中文](zh-CN/benchmark-results.md)
+
 Source script: `benchmarks/locomo_lite/evaluate.py`
 
 ## Latest Run

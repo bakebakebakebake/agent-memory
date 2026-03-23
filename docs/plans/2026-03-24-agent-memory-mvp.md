@@ -1,5 +1,7 @@
 # Agent Memory MVP Implementation Plan
 
+[English](2026-03-24-agent-memory-mvp.md) | [简体中文](../zh-CN/plans/2026-03-24-agent-memory-mvp.md)
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Build a usable Phase 1 `agent-memory` package with SQLite persistence, a Python SDK, basic extraction, and validated routing/forgetting primitives.
@@ -140,4 +142,3 @@ Run: `pytest`
 **Step 3: Document gaps**
 
 Record what remains for conflict detection, trust scoring, MCP tools, health monitoring, and REST API.
-

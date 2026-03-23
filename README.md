@@ -1,5 +1,7 @@
 # agent-memory
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 ![CI](https://github.com/bakebakebakebake/agent-memory/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -11,6 +13,15 @@ Zero-config, traceable, MCP-native long-term memory for agents.
 Install from PyPI with `pip install agent-memory-engine`.
 
 Current packaged release: `0.1.1`.
+
+## Documentation
+
+- English docs index: `docs/README.md`
+- 中文文档索引: `docs/zh-CN/README.md`
+- Delivery tutorial: `docs/project-delivery-and-tutorial.md`
+- MCP guide: `docs/mcp-integration.md`
+- Release guide: `docs/release-and-pypi.md`
+- Benchmark report: `docs/benchmark-results.md`
 
 ## Why this exists
 

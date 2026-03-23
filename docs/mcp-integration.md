@@ -1,5 +1,7 @@
 # MCP Integration
 
+[English](mcp-integration.md) | [简体中文](zh-CN/mcp-integration.md)
+
 This document describes how to run `agent-memory` as an MCP server and connect it to supported MCP clients.
 
 ## Claude Desktop

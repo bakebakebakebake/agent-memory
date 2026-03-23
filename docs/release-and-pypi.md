@@ -1,5 +1,7 @@
 # Release and PyPI Guide
 
+[English](release-and-pypi.md) | [简体中文](zh-CN/release-and-pypi.md)
+
 This document describes the current release process for `agent-memory`.
 
 ## Naming

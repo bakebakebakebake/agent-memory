@@ -87,3 +87,36 @@ def test_backend_dispatches_to_sqlite_vec_when_enabled(monkeypatch) -> None:
     results = backend.search_by_vector([0.1, 0.2, 0.3], limit=5)
     assert called["sqlite_vec"] is True
     assert results[0][0].id == "m1"
+
+
+def test_backend_updates_existing_vec_index_row_without_duplicate_key(monkeypatch) -> None:
+    backend = SQLiteBackend(":memory:", prefer_sqlite_vec=False)
+    backend.connection.execute(
+        """
+        CREATE TABLE memory_vec_index (
+            memory_rowid INTEGER PRIMARY KEY,
+            embedding BLOB,
+            memory_type TEXT,
+            layer TEXT,
+            source_id TEXT,
+            trust_score FLOAT,
+            created_at TEXT,
+            last_accessed TEXT
+        )
+        """
+    )
+    backend._sqlite_vec_enabled = True
+    monkeypatch.setattr(backend, "_ensure_vec_index_table", lambda dimension: None)
+    monkeypatch.setattr(backend, "_serialize_embedding", lambda embedding: b"serialized")
+
+    item = build_memory("m1", "SQLite works well for local agent memory")
+    backend.add_memory(item)
+
+    updated = backend.get_memory("m1")
+    assert updated is not None
+    updated.content = "SQLite still works well after update"
+    backend.update_memory(updated)
+
+    row = backend.connection.execute("SELECT COUNT(*) AS count FROM memory_vec_index WHERE memory_rowid = 1").fetchone()
+    assert row is not None
+    assert int(row["count"]) == 1

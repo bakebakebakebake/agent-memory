@@ -683,9 +683,28 @@ class SQLiteBackend:
         if serialized is None:
             return
         self._ensure_vec_index_table(len(item.embedding))
+        update_cursor = self.connection.execute(
+            """
+            UPDATE memory_vec_index
+            SET embedding = ?, memory_type = ?, layer = ?, source_id = ?, trust_score = ?, created_at = ?, last_accessed = ?
+            WHERE memory_rowid = ?
+            """,
+            (
+                serialized,
+                item.memory_type.value,
+                item.layer.value,
+                item.source_id,
+                item.trust_score,
+                _serialize_datetime(item.created_at),
+                _serialize_datetime(item.last_accessed),
+                memory_rowid,
+            ),
+        )
+        if update_cursor.rowcount > 0:
+            return
         self.connection.execute(
             """
-            INSERT OR REPLACE INTO memory_vec_index (
+            INSERT INTO memory_vec_index (
                 memory_rowid, embedding, memory_type, layer, source_id, trust_score, created_at, last_accessed
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,

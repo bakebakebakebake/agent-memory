@@ -1,6 +1,6 @@
 {"dialogue_id":"dlg-01","question":"张三的职业是什么？","expected_keywords":["后端工程师"],"intent_type":"FACTUAL","expected_answer":"张三是后端工程师。"}
 {"dialogue_id":"dlg-01","question":"张三最近在学什么？","expected_keywords":["Rust"],"intent_type":"TEMPORAL","expected_answer":"他上周开始学习 Rust。"}
-{"dialogue_id":"dlg-01","question":"为什么张三偏好 SQLite？","expected_keywords":["零配置","demo"],"intent_type":"CAUSAL","expected_answer":"因为 SQLite 零配置，做面试 demo 很方便。"}
+{"dialogue_id":"dlg-01","question":"为什么张三偏好 SQLite？","expected_keywords":["零配置","方便"],"intent_type":"CAUSAL","expected_answer":"因为 SQLite 零配置，本地演示和集成都很方便。"}
 {"dialogue_id":"dlg-01","question":"部署步骤是什么？","expected_keywords":["pull","测试","重启"],"intent_type":"PROCEDURAL","expected_answer":"先 pull，再跑测试，最后重启服务。"}
 {"dialogue_id":"dlg-01","question":"张三提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
 {"dialogue_id":"dlg-02","question":"李四主要用什么技术栈？","expected_keywords":["TypeScript","Node"],"intent_type":"FACTUAL","expected_answer":"他主要用 TypeScript 和 Node.js。"}

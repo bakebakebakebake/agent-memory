@@ -41,7 +41,7 @@ def main() -> int:
         [
             ConversationTurn(role="user", content="我是张三，是一名后端工程师，主要使用 Go 和 Python。"),
             ConversationTurn(role="user", content="我最近在学习 Rust，因为我想做更底层的系统工具。"),
-            ConversationTurn(role="user", content="我偏好 SQLite，因为它零配置，面试 demo 很方便。"),
+            ConversationTurn(role="user", content="我偏好 SQLite，因为它零配置，本地演示和集成都很方便。"),
         ],
         source_id=session_1,
     )

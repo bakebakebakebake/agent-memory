@@ -14,7 +14,7 @@ PyPI distribution name: `agent-memory-engine`
 
 - `Mem0` proves demand, but pulls in heavier infra such as Neo4j or Qdrant.
 - Local agents and personal copilots need a memory layer that is easy to embed, debug, export, and ship.
-- Interviews love this surface area: storage, retrieval, ranking, decay, provenance, conflict handling, MCP, and evaluation.
+- The project spans a broad technical surface area: storage, retrieval, ranking, decay, provenance, conflict handling, MCP, and evaluation.
 
 ## Current Status
 

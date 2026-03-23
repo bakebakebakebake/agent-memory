@@ -1,0 +1,150 @@
+{"dialogue_id":"dlg-01","question":"张三的职业是什么？","expected_keywords":["后端工程师"],"intent_type":"FACTUAL","expected_answer":"张三是后端工程师。"}
+{"dialogue_id":"dlg-01","question":"张三最近在学什么？","expected_keywords":["Rust"],"intent_type":"TEMPORAL","expected_answer":"他上周开始学习 Rust。"}
+{"dialogue_id":"dlg-01","question":"为什么张三偏好 SQLite？","expected_keywords":["零配置","demo"],"intent_type":"CAUSAL","expected_answer":"因为 SQLite 零配置，做面试 demo 很方便。"}
+{"dialogue_id":"dlg-01","question":"部署步骤是什么？","expected_keywords":["pull","测试","重启"],"intent_type":"PROCEDURAL","expected_answer":"先 pull，再跑测试，最后重启服务。"}
+{"dialogue_id":"dlg-01","question":"张三提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-02","question":"李四主要用什么技术栈？","expected_keywords":["TypeScript","Node"],"intent_type":"FACTUAL","expected_answer":"他主要用 TypeScript 和 Node.js。"}
+{"dialogue_id":"dlg-02","question":"李四最近在补什么？","expected_keywords":["Kubernetes"],"intent_type":"TEMPORAL","expected_answer":"最近在补 Kubernetes 基础。"}
+{"dialogue_id":"dlg-02","question":"为什么李四选择 Postgres？","expected_keywords":["复杂查询","事务"],"intent_type":"CAUSAL","expected_answer":"因为团队需要复杂查询和事务。"}
+{"dialogue_id":"dlg-02","question":"发布步骤是什么？","expected_keywords":["build","push","deployment"],"intent_type":"PROCEDURAL","expected_answer":"先 build 镜像，再 push，最后更新 deployment。"}
+{"dialogue_id":"dlg-02","question":"李四提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-03","question":"王五的职业是什么？","expected_keywords":["数据工程师"],"intent_type":"FACTUAL","expected_answer":"王五是数据工程师。"}
+{"dialogue_id":"dlg-03","question":"王五上周在做什么？","expected_keywords":["ETL","告警"],"intent_type":"TEMPORAL","expected_answer":"上周在整理 ETL 作业告警。"}
+{"dialogue_id":"dlg-03","question":"为什么王五喜欢 DuckDB？","expected_keywords":["本地分析","速度快"],"intent_type":"CAUSAL","expected_answer":"因为本地分析速度快。"}
+{"dialogue_id":"dlg-03","question":"排查步骤是什么？","expected_keywords":["日志","数据源","重跑"],"intent_type":"PROCEDURAL","expected_answer":"先看日志，再查数据源，最后重跑任务。"}
+{"dialogue_id":"dlg-03","question":"王五提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-04","question":"赵六是做什么的？","expected_keywords":["移动开发"],"intent_type":"FACTUAL","expected_answer":"赵六是移动开发工程师。"}
+{"dialogue_id":"dlg-04","question":"赵六最近在学习什么？","expected_keywords":["Rust","FFI"],"intent_type":"TEMPORAL","expected_answer":"最近在学习 Rust FFI。"}
+{"dialogue_id":"dlg-04","question":"为什么赵六偏好 SQLite？","expected_keywords":["Android","缓存"],"intent_type":"CAUSAL","expected_answer":"因为 Android 本地缓存很好用。"}
+{"dialogue_id":"dlg-04","question":"发版步骤是什么？","expected_keywords":["version","APK","商店"],"intent_type":"PROCEDURAL","expected_answer":"先 bump version，再打包 APK，最后上传商店。"}
+{"dialogue_id":"dlg-04","question":"赵六提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-05","question":"小陈的职业是什么？","expected_keywords":["SRE"],"intent_type":"FACTUAL","expected_answer":"小陈是一名 SRE。"}
+{"dialogue_id":"dlg-05","question":"小陈上周在做什么？","expected_keywords":["告警","收敛"],"intent_type":"TEMPORAL","expected_answer":"上周在做告警收敛。"}
+{"dialogue_id":"dlg-05","question":"为什么小陈选择 Redis？","expected_keywords":["缓存","低延迟"],"intent_type":"CAUSAL","expected_answer":"因为缓存场景需要低延迟。"}
+{"dialogue_id":"dlg-05","question":"应急步骤是什么？","expected_keywords":["影响范围","限流","回滚"],"intent_type":"PROCEDURAL","expected_answer":"先确认影响范围，然后限流，最后回滚。"}
+{"dialogue_id":"dlg-05","question":"小陈提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-06","question":"小林是做什么的？","expected_keywords":["安全工程师"],"intent_type":"FACTUAL","expected_answer":"小林是安全工程师。"}
+{"dialogue_id":"dlg-06","question":"小林最近在研究什么？","expected_keywords":["SBOM"],"intent_type":"TEMPORAL","expected_answer":"最近在研究 SBOM。"}
+{"dialogue_id":"dlg-06","question":"为什么小林喜欢 SQLite？","expected_keywords":["本地","审计","部署简单"],"intent_type":"CAUSAL","expected_answer":"因为本地审计工具部署简单。"}
+{"dialogue_id":"dlg-06","question":"扫描步骤是什么？","expected_keywords":["拉代码","扫描器","风险"],"intent_type":"PROCEDURAL","expected_answer":"先拉代码，再跑扫描器，最后汇总风险。"}
+{"dialogue_id":"dlg-06","question":"小林提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-07","question":"周宁的职业是什么？","expected_keywords":["平台工程师"],"intent_type":"FACTUAL","expected_answer":"周宁是平台工程师。"}
+{"dialogue_id":"dlg-07","question":"周宁上周在重构什么？","expected_keywords":["CI","pipeline"],"intent_type":"TEMPORAL","expected_answer":"上周在重构 CI pipeline。"}
+{"dialogue_id":"dlg-07","question":"为什么周宁选择 PostgreSQL？","expected_keywords":["元数据","关系"],"intent_type":"CAUSAL","expected_answer":"因为平台元数据很多。"}
+{"dialogue_id":"dlg-07","question":"CI 步骤是什么？","expected_keywords":["lint","test","build"],"intent_type":"PROCEDURAL","expected_answer":"先 lint，然后 test，最后 build。"}
+{"dialogue_id":"dlg-07","question":"周宁提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-08","question":"高远主要做什么？","expected_keywords":["前端工程师"],"intent_type":"FACTUAL","expected_answer":"高远是前端工程师。"}
+{"dialogue_id":"dlg-08","question":"高远最近在学习什么？","expected_keywords":["Tauri"],"intent_type":"TEMPORAL","expected_answer":"最近在学习 Tauri。"}
+{"dialogue_id":"dlg-08","question":"为什么高远偏好 SQLite？","expected_keywords":["离线","demo"],"intent_type":"CAUSAL","expected_answer":"因为离线 demo 不需要额外服务。"}
+{"dialogue_id":"dlg-08","question":"打包步骤是什么？","expected_keywords":["安装依赖","构建前端","桌面包"],"intent_type":"PROCEDURAL","expected_answer":"先安装依赖，然后构建前端，最后生成桌面包。"}
+{"dialogue_id":"dlg-08","question":"高远提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-09","question":"许航的职业是什么？","expected_keywords":["后端工程师"],"intent_type":"FACTUAL","expected_answer":"许航是后端工程师。"}
+{"dialogue_id":"dlg-09","question":"许航上周在做什么？","expected_keywords":["索引","优化"],"intent_type":"TEMPORAL","expected_answer":"上周在做数据库索引优化。"}
+{"dialogue_id":"dlg-09","question":"为什么许航选择 MySQL？","expected_keywords":["历史系统"],"intent_type":"CAUSAL","expected_answer":"因为历史系统已经都在用它。"}
+{"dialogue_id":"dlg-09","question":"迁移步骤是什么？","expected_keywords":["备份","迁移","校验"],"intent_type":"PROCEDURAL","expected_answer":"先备份，再执行迁移，最后校验数据。"}
+{"dialogue_id":"dlg-09","question":"许航提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-10","question":"唐悦主要用什么技术？","expected_keywords":["Python","JavaScript"],"intent_type":"FACTUAL","expected_answer":"唐悦主要用 Python 和 JavaScript。"}
+{"dialogue_id":"dlg-10","question":"唐悦最近在学习什么？","expected_keywords":["MCP"],"intent_type":"TEMPORAL","expected_answer":"最近在学习 MCP 工具协议。"}
+{"dialogue_id":"dlg-10","question":"为什么唐悦喜欢 SQLite？","expected_keywords":["单文件","分享"],"intent_type":"CAUSAL","expected_answer":"因为单文件数据库方便分享。"}
+{"dialogue_id":"dlg-10","question":"演示步骤是什么？","expected_keywords":["启动服务","连接客户端","工具调用"],"intent_type":"PROCEDURAL","expected_answer":"先启动服务，再连接客户端，最后触发工具调用。"}
+{"dialogue_id":"dlg-10","question":"唐悦提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-11","question":"What is Alice's job?","expected_keywords":["frontend engineer"],"intent_type":"FACTUAL","expected_answer":"Alice is a frontend engineer."}
+{"dialogue_id":"dlg-11","question":"What did Alice start learning last week?","expected_keywords":["Rust"],"intent_type":"TEMPORAL","expected_answer":"She started learning Rust for CLI tools."}
+{"dialogue_id":"dlg-11","question":"Why does Alice prefer SQLite?","expected_keywords":["zero-config","laptop"],"intent_type":"CAUSAL","expected_answer":"Because zero-config demos are easier on her laptop."}
+{"dialogue_id":"dlg-11","question":"What are the deployment steps?","expected_keywords":["pull","tests","restart"],"intent_type":"PROCEDURAL","expected_answer":"Pull the repo, run tests, restart the server."}
+{"dialogue_id":"dlg-11","question":"Did Alice mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, she did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-12","question":"What stack does Bob use?","expected_keywords":["Go","PostgreSQL"],"intent_type":"FACTUAL","expected_answer":"Bob uses Go and PostgreSQL."}
+{"dialogue_id":"dlg-12","question":"What has Bob been learning recently?","expected_keywords":["Kafka"],"intent_type":"TEMPORAL","expected_answer":"He has been learning Kafka."}
+{"dialogue_id":"dlg-12","question":"Why did Bob choose PostgreSQL?","expected_keywords":["transactions","joins"],"intent_type":"CAUSAL","expected_answer":"Because the service needs transactions and joins."}
+{"dialogue_id":"dlg-12","question":"What are the release steps?","expected_keywords":["build","artifact","restart"],"intent_type":"PROCEDURAL","expected_answer":"Build the binary, upload the artifact, restart the job."}
+{"dialogue_id":"dlg-12","question":"Did Bob mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Bob did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-13","question":"What is Carol's role?","expected_keywords":["data engineer"],"intent_type":"FACTUAL","expected_answer":"Carol is a data engineer."}
+{"dialogue_id":"dlg-13","question":"What did Carol clean up last week?","expected_keywords":["ETL","alerts"],"intent_type":"TEMPORAL","expected_answer":"She cleaned up ETL alerts."}
+{"dialogue_id":"dlg-13","question":"Why does Carol like DuckDB?","expected_keywords":["local analytics","fast"],"intent_type":"CAUSAL","expected_answer":"Because local analytics are fast."}
+{"dialogue_id":"dlg-13","question":"What are the debug steps?","expected_keywords":["logs","source table","rerun"],"intent_type":"PROCEDURAL","expected_answer":"Inspect logs, verify the source table, rerun the pipeline."}
+{"dialogue_id":"dlg-13","question":"Did Carol mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Carol did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-14","question":"What is David's role?","expected_keywords":["SRE"],"intent_type":"FACTUAL","expected_answer":"David is an SRE."}
+{"dialogue_id":"dlg-14","question":"What has David been doing recently?","expected_keywords":["alerts"],"intent_type":"TEMPORAL","expected_answer":"He has been reducing noisy alerts."}
+{"dialogue_id":"dlg-14","question":"Why does David prefer Redis?","expected_keywords":["low-latency","cache"],"intent_type":"CAUSAL","expected_answer":"Because the cache path must stay low-latency."}
+{"dialogue_id":"dlg-14","question":"What are the incident steps?","expected_keywords":["impact","rate limit","rollback"],"intent_type":"PROCEDURAL","expected_answer":"Measure impact, rate limit traffic, rollback the change."}
+{"dialogue_id":"dlg-14","question":"Did David mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, David did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-15","question":"What is Erin's job?","expected_keywords":["mobile engineer"],"intent_type":"FACTUAL","expected_answer":"Erin is a mobile engineer."}
+{"dialogue_id":"dlg-15","question":"What did Erin study last week?","expected_keywords":["Rust","FFI"],"intent_type":"TEMPORAL","expected_answer":"She studied Rust FFI."}
+{"dialogue_id":"dlg-15","question":"Why does Erin prefer SQLite?","expected_keywords":["Android","local persistence"],"intent_type":"CAUSAL","expected_answer":"Because Android local persistence is simple with it."}
+{"dialogue_id":"dlg-15","question":"What are the release steps?","expected_keywords":["version","APK","store"],"intent_type":"PROCEDURAL","expected_answer":"Bump the version, build the APK, upload to the store."}
+{"dialogue_id":"dlg-15","question":"Did Erin mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Erin did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-16","question":"What is Frank's role?","expected_keywords":["platform engineer"],"intent_type":"FACTUAL","expected_answer":"Frank is a platform engineer."}
+{"dialogue_id":"dlg-16","question":"What has Frank been refactoring recently?","expected_keywords":["CI"],"intent_type":"TEMPORAL","expected_answer":"He has been refactoring the CI pipeline."}
+{"dialogue_id":"dlg-16","question":"Why did Frank choose PostgreSQL?","expected_keywords":["metadata","relational"],"intent_type":"CAUSAL","expected_answer":"Because platform metadata is relational."}
+{"dialogue_id":"dlg-16","question":"What are the CI steps?","expected_keywords":["lint","tests","image"],"intent_type":"PROCEDURAL","expected_answer":"Run lint, run tests, build the image."}
+{"dialogue_id":"dlg-16","question":"Did Frank mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Frank did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-17","question":"What is Grace's role?","expected_keywords":["security engineer"],"intent_type":"FACTUAL","expected_answer":"Grace is a security engineer."}
+{"dialogue_id":"dlg-17","question":"What did Grace research last week?","expected_keywords":["SBOM"],"intent_type":"TEMPORAL","expected_answer":"She researched SBOM workflows."}
+{"dialogue_id":"dlg-17","question":"Why does Grace like SQLite?","expected_keywords":["audit","distribute"],"intent_type":"CAUSAL","expected_answer":"Because local audit tools are easy to distribute."}
+{"dialogue_id":"dlg-17","question":"What are the security scan steps?","expected_keywords":["repo","scanner","risks"],"intent_type":"PROCEDURAL","expected_answer":"Fetch the repo, run the scanner, summarize risks."}
+{"dialogue_id":"dlg-17","question":"Did Grace mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Grace did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-18","question":"What is Henry's role?","expected_keywords":["product engineer"],"intent_type":"FACTUAL","expected_answer":"Henry is a product engineer."}
+{"dialogue_id":"dlg-18","question":"What has Henry been studying recently?","expected_keywords":["MCP"],"intent_type":"TEMPORAL","expected_answer":"He has been studying MCP integrations."}
+{"dialogue_id":"dlg-18","question":"Why does Henry prefer SQLite?","expected_keywords":["single-file","share"],"intent_type":"CAUSAL","expected_answer":"Because a single-file database is easy to share."}
+{"dialogue_id":"dlg-18","question":"What are the demo steps?","expected_keywords":["service","client","tool"],"intent_type":"PROCEDURAL","expected_answer":"Start the service, connect the client, trigger the tool call."}
+{"dialogue_id":"dlg-18","question":"Did Henry mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Henry did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-19","question":"What stack does Ivy use?","expected_keywords":["Java","Kotlin"],"intent_type":"FACTUAL","expected_answer":"Ivy uses Java and Kotlin."}
+{"dialogue_id":"dlg-19","question":"What did Ivy work on last week?","expected_keywords":["index","tuning"],"intent_type":"TEMPORAL","expected_answer":"She worked on index tuning."}
+{"dialogue_id":"dlg-19","question":"Why did Ivy choose MySQL?","expected_keywords":["legacy"],"intent_type":"CAUSAL","expected_answer":"Because the legacy system already depends on it."}
+{"dialogue_id":"dlg-19","question":"What are the migration steps?","expected_keywords":["back up","migration","validate"],"intent_type":"PROCEDURAL","expected_answer":"Back up data, run the migration, validate the tables."}
+{"dialogue_id":"dlg-19","question":"Did Ivy mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Ivy did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-20","question":"What is Jack's role?","expected_keywords":["frontend engineer"],"intent_type":"FACTUAL","expected_answer":"Jack is a frontend engineer."}
+{"dialogue_id":"dlg-20","question":"What did Jack start learning recently?","expected_keywords":["Tauri"],"intent_type":"TEMPORAL","expected_answer":"He started learning Tauri."}
+{"dialogue_id":"dlg-20","question":"Why does Jack prefer SQLite?","expected_keywords":["offline","extra services"],"intent_type":"CAUSAL","expected_answer":"Because offline demos should not need extra services."}
+{"dialogue_id":"dlg-20","question":"What are the packaging steps?","expected_keywords":["dependencies","frontend","desktop"],"intent_type":"PROCEDURAL","expected_answer":"Install dependencies, build the frontend, package the desktop app."}
+{"dialogue_id":"dlg-20","question":"Did Jack mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Jack did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-21","question":"韩梅梅是做什么的？","expected_keywords":["机器人工程师"],"intent_type":"FACTUAL","expected_answer":"韩梅梅是机器人工程师。"}
+{"dialogue_id":"dlg-21","question":"韩梅梅上周在学习什么？","expected_keywords":["ROS2"],"intent_type":"TEMPORAL","expected_answer":"上周在学习 ROS2。"}
+{"dialogue_id":"dlg-21","question":"为什么韩梅梅选择 SQLite？","expected_keywords":["边缘设备","部署最简单"],"intent_type":"CAUSAL","expected_answer":"因为边缘设备上部署最简单。"}
+{"dialogue_id":"dlg-21","question":"调试步骤是什么？","expected_keywords":["日志","回放","节点"],"intent_type":"PROCEDURAL","expected_answer":"先录日志，然后回放数据，最后修复节点。"}
+{"dialogue_id":"dlg-21","question":"韩梅梅提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-22","question":"刘洋主要做什么？","expected_keywords":["DevOps"],"intent_type":"FACTUAL","expected_answer":"刘洋是 DevOps 工程师。"}
+{"dialogue_id":"dlg-22","question":"刘洋最近在补什么？","expected_keywords":["OpenTofu"],"intent_type":"TEMPORAL","expected_answer":"最近在补 OpenTofu 差异。"}
+{"dialogue_id":"dlg-22","question":"为什么刘洋偏好 Terraform Cloud？","expected_keywords":["统一","状态管理"],"intent_type":"CAUSAL","expected_answer":"因为团队需要统一状态管理。"}
+{"dialogue_id":"dlg-22","question":"变更步骤是什么？","expected_keywords":["plan","review","apply"],"intent_type":"PROCEDURAL","expected_answer":"先 plan，再 review，最后 apply。"}
+{"dialogue_id":"dlg-22","question":"刘洋提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-23","question":"阿南的职业是什么？","expected_keywords":["游戏服务器工程师"],"intent_type":"FACTUAL","expected_answer":"阿南是游戏服务器工程师。"}
+{"dialogue_id":"dlg-23","question":"阿南上周在排查什么？","expected_keywords":["匹配","延迟"],"intent_type":"TEMPORAL","expected_answer":"上周在排查匹配延迟。"}
+{"dialogue_id":"dlg-23","question":"为什么阿南选择 Redis？","expected_keywords":["房间状态","快速同步"],"intent_type":"CAUSAL","expected_answer":"因为房间状态需要快速同步。"}
+{"dialogue_id":"dlg-23","question":"发布步骤是什么？","expected_keywords":["冻结流量","发布","观察指标"],"intent_type":"PROCEDURAL","expected_answer":"先冻结流量，然后发布，再观察指标。"}
+{"dialogue_id":"dlg-23","question":"阿南提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-24","question":"阿北是做什么的？","expected_keywords":["测试工程师"],"intent_type":"FACTUAL","expected_answer":"阿北是测试工程师。"}
+{"dialogue_id":"dlg-24","question":"阿北最近在学习什么？","expected_keywords":["MCP"],"intent_type":"TEMPORAL","expected_answer":"最近在学习 MCP 自动化。"}
+{"dialogue_id":"dlg-24","question":"为什么阿北喜欢 SQLite？","expected_keywords":["测试基线","打包"],"intent_type":"CAUSAL","expected_answer":"因为测试基线数据可以直接打包。"}
+{"dialogue_id":"dlg-24","question":"回归步骤是什么？","expected_keywords":["准备数据","跑用例","失败"],"intent_type":"PROCEDURAL","expected_answer":"先准备数据，再跑用例，最后汇总失败。"}
+{"dialogue_id":"dlg-24","question":"阿北提到过机器学习吗？","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"没有提到机器学习。","negative_topic":"机器学习"}
+{"dialogue_id":"dlg-25","question":"Sophie uses which stack?","expected_keywords":["Rust","Python"],"intent_type":"FACTUAL","expected_answer":"Sophie uses Rust and Python."}
+{"dialogue_id":"dlg-25","question":"What did Sophie study last week?","expected_keywords":["Tokio","tracing"],"intent_type":"TEMPORAL","expected_answer":"She studied Tokio tracing."}
+{"dialogue_id":"dlg-25","question":"Why does Sophie prefer SQLite?","expected_keywords":["local prototype","Docker"],"intent_type":"CAUSAL","expected_answer":"Because local prototypes should not depend on Docker."}
+{"dialogue_id":"dlg-25","question":"What are the troubleshooting steps?","expected_keywords":["reproduce","logs","scope"],"intent_type":"PROCEDURAL","expected_answer":"Reproduce first, add logs, narrow the scope."}
+{"dialogue_id":"dlg-25","question":"Did Sophie mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Sophie did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-26","question":"What is Leo's role?","expected_keywords":["DevEx engineer"],"intent_type":"FACTUAL","expected_answer":"Leo is a DevEx engineer."}
+{"dialogue_id":"dlg-26","question":"What did Leo study last week?","expected_keywords":["MCP"],"intent_type":"TEMPORAL","expected_answer":"He studied MCP server patterns."}
+{"dialogue_id":"dlg-26","question":"Why does Leo prefer SQLite?","expected_keywords":["developer tooling","zero-config"],"intent_type":"CAUSAL","expected_answer":"Because local developer tooling should stay zero-config."}
+{"dialogue_id":"dlg-26","question":"What are the bootstrap steps?","expected_keywords":["venv","package","CLI"],"intent_type":"PROCEDURAL","expected_answer":"Create the venv, install the package, run the CLI."}
+{"dialogue_id":"dlg-26","question":"Did Leo mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Leo did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-27","question":"What is Mia's role?","expected_keywords":["QA engineer"],"intent_type":"FACTUAL","expected_answer":"Mia is a QA engineer."}
+{"dialogue_id":"dlg-27","question":"What has Mia learned recently?","expected_keywords":["MCP"],"intent_type":"TEMPORAL","expected_answer":"She learned MCP-based automation flows."}
+{"dialogue_id":"dlg-27","question":"Why does Mia like SQLite?","expected_keywords":["fixture data","test bundle"],"intent_type":"CAUSAL","expected_answer":"Because fixture data can travel with the test bundle."}
+{"dialogue_id":"dlg-27","question":"What are the regression steps?","expected_keywords":["fixtures","tests","failures"],"intent_type":"PROCEDURAL","expected_answer":"Prepare fixtures, run tests, summarize failures."}
+{"dialogue_id":"dlg-27","question":"Did Mia mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Mia did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-28","question":"What is Noah's role?","expected_keywords":["robotics engineer"],"intent_type":"FACTUAL","expected_answer":"Noah is a robotics engineer."}
+{"dialogue_id":"dlg-28","question":"What did Noah start studying last week?","expected_keywords":["ROS2"],"intent_type":"TEMPORAL","expected_answer":"He started studying ROS2."}
+{"dialogue_id":"dlg-28","question":"Why did Noah choose SQLite?","expected_keywords":["edge deployments","simple"],"intent_type":"CAUSAL","expected_answer":"Because edge deployments should stay simple."}
+{"dialogue_id":"dlg-28","question":"What are the debug steps?","expected_keywords":["logs","replay","node"],"intent_type":"PROCEDURAL","expected_answer":"Record logs, replay data, patch the node."}
+{"dialogue_id":"dlg-28","question":"Did Noah mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Noah did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-29","question":"What is Olivia's role?","expected_keywords":["DevOps engineer"],"intent_type":"FACTUAL","expected_answer":"Olivia is a DevOps engineer."}
+{"dialogue_id":"dlg-29","question":"What did Olivia compare recently?","expected_keywords":["OpenTofu","Terraform"],"intent_type":"TEMPORAL","expected_answer":"She compared OpenTofu and Terraform."}
+{"dialogue_id":"dlg-29","question":"Why does Olivia prefer Terraform Cloud?","expected_keywords":["shared state"],"intent_type":"CAUSAL","expected_answer":"Because the team needs shared state management."}
+{"dialogue_id":"dlg-29","question":"What are the change steps?","expected_keywords":["plan","diff","apply"],"intent_type":"PROCEDURAL","expected_answer":"Run plan, review the diff, apply the change."}
+{"dialogue_id":"dlg-29","question":"Did Olivia mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Olivia did not mention machine learning.","negative_topic":"machine learning"}
+{"dialogue_id":"dlg-30","question":"What is Peter's job?","expected_keywords":["game backend engineer"],"intent_type":"FACTUAL","expected_answer":"Peter is a game backend engineer."}
+{"dialogue_id":"dlg-30","question":"What did Peter investigate last week?","expected_keywords":["matchmaking","latency"],"intent_type":"TEMPORAL","expected_answer":"He investigated matchmaking latency."}
+{"dialogue_id":"dlg-30","question":"Why did Peter choose Redis?","expected_keywords":["room state","quickly"],"intent_type":"CAUSAL","expected_answer":"Because room state must sync quickly."}
+{"dialogue_id":"dlg-30","question":"What are the release steps?","expected_keywords":["freeze","deploy","metrics"],"intent_type":"PROCEDURAL","expected_answer":"Freeze traffic, deploy the build, watch the metrics."}
+{"dialogue_id":"dlg-30","question":"Did Peter mention machine learning?","expected_keywords":[],"intent_type":"NEGATIVE","expected_answer":"No, Peter did not mention machine learning.","negative_topic":"machine learning"}

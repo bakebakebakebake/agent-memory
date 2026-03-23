@@ -1,0 +1,67 @@
+{
+  "full": {
+    "mode": "full",
+    "total": 150,
+    "hits": 75,
+    "by_intent": {
+      "CAUSAL": {
+        "hits": 16,
+        "total": 30
+      },
+      "FACTUAL": {
+        "hits": 16,
+        "total": 30
+      },
+      "NEGATIVE": {
+        "hits": 30,
+        "total": 30
+      },
+      "PROCEDURAL": {
+        "hits": 2,
+        "total": 30
+      },
+      "TEMPORAL": {
+        "hits": 11,
+        "total": 30
+      }
+    },
+    "avg_latency_ms": 11.019443326319257,
+    "p50_latency_ms": 12.715000193566084,
+    "p95_latency_ms": 16.638792119920254,
+    "p99_latency_ms": 17.252707853913307,
+    "embedding_calls": 232
+  },
+  "semantic_only": {
+    "mode": "semantic_only",
+    "total": 150,
+    "hits": 35,
+    "by_intent": {
+      "CAUSAL": {
+        "hits": 2,
+        "total": 30
+      },
+      "FACTUAL": {
+        "hits": 2,
+        "total": 30
+      },
+      "NEGATIVE": {
+        "hits": 30,
+        "total": 30
+      },
+      "PROCEDURAL": {
+        "hits": 0,
+        "total": 30
+      },
+      "TEMPORAL": {
+        "hits": 1,
+        "total": 30
+      }
+    },
+    "avg_latency_ms": 10.936714416990677,
+    "p50_latency_ms": 10.847582947462797,
+    "p95_latency_ms": 11.495290789753199,
+    "p99_latency_ms": 13.242834247648716,
+    "embedding_calls": 232
+  },
+  "report": "=== LOCOMO-Lite Evaluation Report ===\nDataset: 30 dialogues, 150 questions\nMode: full (intent-aware routing + RRF)\n\nOverall hit rate:     50.0%  (75/150)\n  CAUSAL:              53.3%  (16/30)\n  FACTUAL:             53.3%  (16/30)\n  NEGATIVE:           100.0%  (30/30)\n  PROCEDURAL:           6.7%  (2/30)\n  TEMPORAL:            36.7%  (11/30)\n\nBaseline (semantic-only): 23.3%  (35/150)\nImprovement:             +26.7pp\n\nRetrieval latency:\n  p50: 12.72ms  p95: 16.64ms  p99: 17.25ms\nEmbedding calls: 232"
+}

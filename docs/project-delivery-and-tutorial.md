@@ -4,7 +4,7 @@
 
 ## 1. 文档用途
 
-这份文档回答两个问题：
+这份文档回答两个核心问题：
 
 1. **这个项目我们到底做了哪些事情**
 2. **别人拿到项目后，应该如何完整使用、验证、演示、扩展**
@@ -12,8 +12,8 @@
 它适合作为：
 
 - 项目交付说明
-- GitHub 仓库的深度文档
-- 对外介绍项目时的讲稿底稿
+- GitHub 仓库的深度项目文档
+- 对外介绍项目的结构化讲稿
 - 后续继续开发时的项目总索引
 
 ---
@@ -35,15 +35,15 @@
 
 这个项目的定位不是“又一个向量库”，而是一个 **面向 Agent 的 Memory System**。
 
-补充说明：
+命名说明：
 
-- GitHub / 项目名：`agent-memory`
+- GitHub 项目名：`agent-memory`
 - PyPI 发布名：`agent-memory-engine`
 - CLI 命令：`agent-memory`
 
 ---
 
-## 3. 我们完成了哪些任务
+## 3. 已完成工作
 
 ## 3.1 核心能力实现
 
@@ -164,10 +164,12 @@
 
 ### 发布验证
 
-- 完成 `git init`
+- 完成 Git 初始化与远程发布
 - 生成打包产物：
   - `dist/agent_memory_engine-0.1.0-py3-none-any.whl`
   - `dist/agent_memory_engine-0.1.0.tar.gz`
+ - 发布到 GitHub Releases
+ - 发布到 PyPI
 
 ---
 
@@ -549,7 +551,7 @@ git commit -m "feat: initial release of agent-memory"
 
 ---
 
-## 16. 如何对外介绍这个项目
+## 16. 如何介绍这个项目
 
 你可以按下面结构讲：
 

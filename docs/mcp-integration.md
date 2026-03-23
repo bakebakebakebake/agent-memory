@@ -1,5 +1,7 @@
 # MCP Integration
 
+This document describes how to run `agent-memory` as an MCP server and connect it to supported MCP clients.
+
 ## Claude Desktop
 
 1. Install MCP dependencies in the same environment as `agent-memory`:
@@ -48,7 +50,7 @@ python -m agent_memory.interfaces.mcp_server
 - `memory_maintain()`
 - `memory_export(path)`
 
-## Example Conversation
+## Example Interaction
 
 ```text
 User: Store that I prefer SQLite for local-first agent demos.

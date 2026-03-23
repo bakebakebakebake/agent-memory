@@ -35,6 +35,12 @@
 
 这个项目的定位不是“又一个向量库”，而是一个 **面向 Agent 的 Memory System**。
 
+补充说明：
+
+- GitHub / 项目名：`agent-memory`
+- PyPI 发布名：`agent-memory-engine`
+- CLI 命令：`agent-memory`
+
 ---
 
 ## 3. 我们完成了哪些任务
@@ -160,8 +166,8 @@
 
 - 完成 `git init`
 - 生成打包产物：
-  - `dist/agent_memory-0.1.0-py3-none-any.whl`
-  - `dist/agent_memory-0.1.0.tar.gz`
+  - `dist/agent_memory_engine-0.1.0-py3-none-any.whl`
+  - `dist/agent_memory_engine-0.1.0.tar.gz`
 
 ---
 
@@ -501,8 +507,8 @@ cat benchmarks/locomo_lite/latest_results.json
 
 生成产物：
 
-- `dist/agent_memory-0.1.0-py3-none-any.whl`
-- `dist/agent_memory-0.1.0.tar.gz`
+- `dist/agent_memory_engine-0.1.0-py3-none-any.whl`
+- `dist/agent_memory_engine-0.1.0.tar.gz`
 
 ---
 

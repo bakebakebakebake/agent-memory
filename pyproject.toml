@@ -3,7 +3,7 @@ requires = ["hatchling>=1.25.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agent-memory"
+name = "agent-memory-engine"
 version = "0.1.0"
 description = "Zero-config, traceable, MCP-native long-term memory for agents."
 readme = "README.md"

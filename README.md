@@ -8,6 +8,8 @@ Zero-config, traceable, MCP-native long-term memory for agents.
 
 `agent-memory` targets a gap in the current memory stack: a local-first engine that works with `pip install`, runs on pure SQLite, and makes memory evolution explainable instead of opaque.
 
+PyPI distribution name: `agent-memory-engine`
+
 ## Why this exists
 
 - `Mem0` proves demand, but pulls in heavier infra such as Neo4j or Qdrant.

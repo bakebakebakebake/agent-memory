@@ -76,64 +76,66 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     client = _build_client(args.database_path)
+    try:
+        if args.command == "store":
+            item = client.add(
+                args.content,
+                source_id=args.source_id,
+                memory_type=args.memory_type,
+                causal_parent_id=args.causal_parent_id,
+                tags=list(args.tag),
+            )
+            _print_json({"id": item.id, "content": item.content, "trust_score": item.trust_score})
+            return 0
 
-    if args.command == "store":
-        item = client.add(
-            args.content,
-            source_id=args.source_id,
-            memory_type=args.memory_type,
-            causal_parent_id=args.causal_parent_id,
-            tags=list(args.tag),
-        )
-        _print_json({"id": item.id, "content": item.content, "trust_score": item.trust_score})
-        return 0
+        if args.command == "search":
+            _print_json(
+                [
+                    {
+                        "id": result.item.id,
+                        "content": result.item.content,
+                        "score": result.score,
+                        "matched_by": result.matched_by,
+                    }
+                    for result in client.search(args.query, limit=args.limit)
+                ]
+            )
+            return 0
 
-    if args.command == "search":
-        _print_json(
-            [
-                {
-                    "id": result.item.id,
-                    "content": result.item.content,
-                    "score": result.score,
-                    "matched_by": result.matched_by,
-                }
-                for result in client.search(args.query, limit=args.limit)
-            ]
-        )
-        return 0
+        if args.command == "trace":
+            _print_json(asdict(client.trace_graph(args.memory_id, max_depth=args.max_depth)))
+            return 0
 
-    if args.command == "trace":
-        _print_json(asdict(client.trace_graph(args.memory_id, max_depth=args.max_depth)))
-        return 0
+        if args.command == "evolution":
+            _print_json(client.evolution_events(memory_id=args.memory_id, limit=args.limit))
+            return 0
 
-    if args.command == "evolution":
-        _print_json(client.evolution_events(memory_id=args.memory_id, limit=args.limit))
-        return 0
+        if args.command == "audit":
+            _print_json(client.audit_events(limit=args.limit))
+            return 0
 
-    if args.command == "audit":
-        _print_json(client.audit_events(limit=args.limit))
-        return 0
+        if args.command == "health":
+            _print_json(asdict(client.health()))
+            return 0
 
-    if args.command == "health":
-        _print_json(asdict(client.health()))
-        return 0
+        if args.command == "maintain":
+            _print_json(asdict(client.maintain()))
+            return 0
 
-    if args.command == "maintain":
-        _print_json(asdict(client.maintain()))
-        return 0
+        if args.command == "export":
+            path = str(Path(args.path))
+            _print_json({"path": path, "exported": client.export_jsonl(path)})
+            return 0
 
-    if args.command == "export":
-        path = str(Path(args.path))
-        _print_json({"path": path, "exported": client.export_jsonl(path)})
-        return 0
+        if args.command == "import":
+            path = str(Path(args.path))
+            _print_json({"path": path, "imported": client.import_jsonl(path)})
+            return 0
 
-    if args.command == "import":
-        path = str(Path(args.path))
-        _print_json({"path": path, "imported": client.import_jsonl(path)})
-        return 0
-
-    parser.error(f"Unsupported command: {args.command}")
-    return 2
+        parser.error(f"Unsupported command: {args.command}")
+        return 2
+    finally:
+        client.close()
 
 
 if __name__ == "__main__":

@@ -63,6 +63,9 @@ class MemoryClient:
         self.exporter = MemoryExporter(self.backend)
         self.importer = MemoryImporter(self.backend)
 
+    def close(self) -> None:
+        self.backend.close()
+
     def add(
         self,
         content: str,

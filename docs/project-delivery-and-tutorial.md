@@ -166,8 +166,8 @@
 
 - 完成 Git 初始化与远程发布
 - 生成打包产物：
-  - `dist/agent_memory_engine-0.1.0-py3-none-any.whl`
-  - `dist/agent_memory_engine-0.1.0.tar.gz`
+  - `dist/agent_memory_engine-0.1.1-py3-none-any.whl`
+  - `dist/agent_memory_engine-0.1.1.tar.gz`
  - 发布到 GitHub Releases
  - 发布到 PyPI
 
@@ -509,8 +509,8 @@ cat benchmarks/locomo_lite/latest_results.json
 
 生成产物：
 
-- `dist/agent_memory_engine-0.1.0-py3-none-any.whl`
-- `dist/agent_memory_engine-0.1.0.tar.gz`
+- `dist/agent_memory_engine-0.1.1-py3-none-any.whl`
+- `dist/agent_memory_engine-0.1.1.tar.gz`
 
 ---
 

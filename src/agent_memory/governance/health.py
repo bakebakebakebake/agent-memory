@@ -4,12 +4,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from agent_memory.models import HealthReport
-from agent_memory.storage.sqlite_backend import SQLiteBackend
+from agent_memory.storage.base import StorageBackend
 
 
 @dataclass(slots=True)
 class MemoryHealthMonitor:
-    backend: SQLiteBackend
+    backend: StorageBackend
 
     def generate(self) -> HealthReport:
         snapshot = self.backend.health_snapshot()
@@ -21,9 +21,10 @@ class MemoryHealthMonitor:
         if snapshot["unresolved_conflicts"] > 0:
             suggestions.append("Resolve contradiction edges to improve trust calibration.")
 
-        size = 0
-        if self.backend.database_path != ":memory:":
-            path = Path(self.backend.database_path)
+        size = int(snapshot.get("database_size_bytes", 0))
+        database_path = getattr(self.backend, "database_path", "")
+        if size == 0 and database_path and database_path not in {":memory:", ":remote:"}:
+            path = Path(database_path)
             if path.exists():
                 size = path.stat().st_size
 
@@ -37,4 +38,3 @@ class MemoryHealthMonitor:
             audit_events=int(snapshot["audit_events"]),
             suggestions=suggestions,
         )
-

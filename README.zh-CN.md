@@ -16,7 +16,7 @@
 pip install agent-memory-engine
 ```
 
-当前已发布版本：`0.1.1`
+当前已发布版本：`0.2.0`
 
 ## 文档
 
@@ -36,8 +36,11 @@ pip install agent-memory-engine
 ## 当前能力
 
 - 基于 SQLite 的后端，包含 WAL、FTS5、审计日志、演化日志、实体索引和因果父节点
+- 新增 Go 服务工作区，包含 SQLite 存储引擎、Schema 迁移、REST 网关、gRPC 服务、认证钩子、指标、Tracing 初始化和 Cobra CLI
 - 覆盖类型、层级、时间、信任分、来源和关系的 Schema 索引
 - 基于 `MemoryClient` 的 Python SDK
+- `MemoryClient` 现在支持 `embedded` 与 `remote` 双模式，可在 Python 内嵌运行，也可走 Go 服务
+- 服务模式下，融合检索编排可以直接在 Go 服务层执行，并通过 REST/gRPC 暴露
 - 基于规则的意图路由与 RRF 融合排序
 - 双阈值层级切换的自适应遗忘策略
 - 启发式冲突检测与矛盾关系维护
@@ -85,27 +88,43 @@ health = client.health()
 print(health.suggestions)
 ```
 
+### 服务模式
+
+```bash
+make proto
+cd go-server && go run ./cmd/server
+```
+
+```bash
+export AGENT_MEMORY_MODE=remote
+export AGENT_MEMORY_GO_SERVER_URL=http://127.0.0.1:8080
+export AGENT_MEMORY_GRPC_TARGET=127.0.0.1:9090
+agent-memory search "为什么选择 SQLite？"
+```
+
 ## 架构
 
 ```mermaid
 graph TD
-    A["Python SDK / CLI"] --> B["MemoryClient"]
-    C["MCP Server"] --> B
-    D["REST API"] --> B
-    B --> E["Intent Router"]
-    B --> F["Conflict Detector"]
-    B --> G["Trust Scorer"]
-    B --> H["Forgetting Engine"]
-    E --> I["SQLite Backend"]
-    F --> I
-    G --> I
-    H --> I
-    I --> J[("SQLite + FTS5 + sqlite-vec")]
+    A["Python SDK / MCP"] --> B["MemoryClient"]
+    B --> C{"运行模式"}
+    C -->|"embedded"| D["SQLiteBackend (Python)"]
+    C -->|"remote"| E["RemoteBackend"]
+    E --> F["Go REST / gRPC"]
+    F --> G["SQLite Storage Engine"]
+    G --> H[("SQLite + WAL + 向量 fallback")]
+    B --> I["Intent Router / Conflict / Trust"]
 ```
 
 ## 核心组件
 
 - `src/agent_memory/client.py` — 高层 SDK 入口
+- `src/agent_memory/storage/remote_backend.py` — 连接 Go 服务的 REST/gRPC 桥接层
+- `proto/memory/v1/` — 共享 Protobuf 契约
+- `go-server/cmd/server/main.go` — 带优雅关停的 Go 服务入口
+- `go-server/internal/storage/sqlite.go` — Go 存储引擎
+- `go-server/internal/gateway/handler.go` — Go REST 处理器
+- `go-server/internal/grpc/server.go` — Go gRPC 实现
 - `src/agent_memory/storage/sqlite_backend.py` — SQLite 持久化、FTS、向量 fallback 与 trace 查询
 - `src/agent_memory/controller/router.py` — 意图路由与 RRF 融合
 - `src/agent_memory/controller/forgetting.py` — Ebbinghaus 启发式遗忘

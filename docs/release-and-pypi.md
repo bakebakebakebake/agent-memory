@@ -15,7 +15,8 @@ This document describes the current release process for `agent-memory`.
 
 - GitHub Release: `v0.1.0`
 - GitHub Release: `v0.1.1`
-- PyPI package: `agent-memory-engine==0.1.1`
+- GitHub Release: `v0.2.0`
+- PyPI package: `agent-memory-engine==0.2.0`
 
 ## Release checklist
 
@@ -32,8 +33,8 @@ This document describes the current release process for `agent-memory`.
 5. Create a Git tag:
 
    ```bash
-   git tag v0.1.2
-   git push origin v0.1.2
+   git tag v0.2.1
+   git push origin v0.2.1
    ```
 
 6. Create the GitHub Release from the tag and upload the artifacts in `dist/`

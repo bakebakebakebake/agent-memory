@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from agent_memory.models import MemoryItem, MemoryLayer, MemoryType, RelationEdge, RelationType
-from agent_memory.storage.sqlite_backend import SQLiteBackend
+from agent_memory.storage.base import StorageBackend
 
 
 def _serialize_value(value: object) -> object:
@@ -22,7 +22,7 @@ def _serialize_value(value: object) -> object:
 
 @dataclass(slots=True)
 class MemoryExporter:
-    backend: SQLiteBackend
+    backend: StorageBackend
 
     def export_jsonl(self, path: str) -> int:
         destination = Path(path)
@@ -40,7 +40,7 @@ class MemoryExporter:
 
 @dataclass(slots=True)
 class MemoryImporter:
-    backend: SQLiteBackend
+    backend: StorageBackend
 
     def import_jsonl(self, path: str) -> int:
         source = Path(path)

@@ -31,6 +31,8 @@ from agent_memory.models import (
     SearchResult,
     TraceReport,
 )
+from agent_memory.storage.base import StorageBackend
+from agent_memory.storage.remote_backend import RemoteBackend
 from agent_memory.storage.sqlite_backend import SQLiteBackend
 
 
@@ -38,16 +40,13 @@ class MemoryClient:
     def __init__(
         self,
         config: AgentMemoryConfig | None = None,
-        backend: SQLiteBackend | None = None,
+        backend: StorageBackend | None = None,
         embedding_provider: LocalEmbeddingProvider | None = None,
         entity_extractor: EntityExtractor | None = None,
         llm_client: LLMClient | None = None,
     ) -> None:
         self.config = config or AgentMemoryConfig.from_env()
-        self.backend = backend or SQLiteBackend(
-            self.config.database_path,
-            prefer_sqlite_vec=self.config.enable_sqlite_vec,
-        )
+        self.backend = backend or self._build_backend()
         self.embedding_provider = embedding_provider or LocalEmbeddingProvider()
         self.entity_extractor = entity_extractor or EntityExtractor()
         self.router = IntentRouter()
@@ -62,6 +61,14 @@ class MemoryClient:
         self.audit_reader = AuditLogReader(self.backend)
         self.exporter = MemoryExporter(self.backend)
         self.importer = MemoryImporter(self.backend)
+
+    def _build_backend(self) -> StorageBackend:
+        if self.config.mode.lower() == "remote":
+            return RemoteBackend(self.config)
+        return SQLiteBackend(
+            self.config.database_path,
+            prefer_sqlite_vec=self.config.enable_sqlite_vec,
+        )
 
     def close(self) -> None:
         self.backend.close()
@@ -113,6 +120,10 @@ class MemoryClient:
 
     def search(self, query: str, limit: int | None = None) -> list[SearchResult]:
         search_limit = limit or self.config.default_search_limit
+        if isinstance(self.backend, RemoteBackend):
+            embedding = self.embedding_provider.embed([query])[0]
+            entities = self.entity_extractor.extract(query)
+            return self.backend.search_query(query, embedding=embedding, entities=entities, limit=search_limit)
         plan = self.router.plan(query)
         rankings: dict[str, list[str]] = {}
         results_by_id: dict[str, MemoryItem] = {}

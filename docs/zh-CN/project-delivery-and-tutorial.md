@@ -253,7 +253,8 @@ python -m agent_memory.interfaces.mcp_server
 
 - GitHub Release：`v0.1.0`
 - GitHub Release：`v0.1.1`
-- PyPI 包：`agent-memory-engine==0.1.1`
+- GitHub Release：`v0.2.0`
+- PyPI 包：`agent-memory-engine==0.2.0`
 
 参考：
 

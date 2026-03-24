@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package memory.v1;
+
+option go_package = "github.com/bakebakebakebake/agent-memory/go-server/gen/memory/v1;memoryv1";
+
+message MemoryItem {
+  string id = 1;
+  string content = 2;
+  string memory_type = 3;
+  repeated float embedding = 4;
+  string created_at = 5;
+  string last_accessed = 6;
+  int32 access_count = 7;
+  string valid_from = 8;
+  string valid_until = 9;
+  double trust_score = 10;
+  double importance = 11;
+  string layer = 12;
+  double decay_rate = 13;
+  string source_id = 14;
+  string causal_parent_id = 15;
+  string supersedes_id = 16;
+  repeated string entity_refs = 17;
+  repeated string tags = 18;
+  string deleted_at = 19;
+}
+
+message RelationEdge {
+  string source_id = 1;
+  string target_id = 2;
+  string relation_type = 3;
+  string created_at = 4;
+}
+
+message SearchResult {
+  MemoryItem item = 1;
+  double score = 2;
+  repeated string matched_by = 3;
+}
+
+message MemoryList {
+  repeated MemoryItem items = 1;
+}
+
+message RelationList {
+  repeated RelationEdge items = 1;
+}
+
+message SearchResultList {
+  repeated SearchResult results = 1;
+}
+
+message EvolutionEvent {
+  string memory_id = 1;
+  string event_type = 2;
+  string payload_json = 3;
+  string created_at = 4;
+}
+
+message EvolutionEventList {
+  repeated EvolutionEvent items = 1;
+}
+
+message AuditEvent {
+  string actor = 1;
+  string operation = 2;
+  string target_type = 3;
+  string target_id = 4;
+  string payload_json = 5;
+  string created_at = 6;
+}
+
+message AuditEventList {
+  repeated AuditEvent items = 1;
+}
+
+message HealthSnapshot {
+  int32 total_memories = 1;
+  double stale_ratio = 2;
+  double orphan_ratio = 3;
+  int32 unresolved_conflicts = 4;
+  double average_trust_score = 5;
+  int32 audit_events = 6;
+  int64 database_size_bytes = 7;
+}
+
+message BoolResponse {
+  bool value = 1;
+}
+
+message CreatedResponse {
+  bool created = 1;
+}
+
+message DeletedResponse {
+  bool deleted = 1;
+}
+
+message GetMemoryResponse {
+  bool found = 1;
+  MemoryItem item = 2;
+}
+
+message HealthCheckResponse {
+  HealthSnapshot snapshot = 1;
+}

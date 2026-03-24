@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package memory.v1;
+
+option go_package = "github.com/bakebakebakebake/agent-memory/go-server/gen/memory/v1;memoryv1";
+
+import "memory/v1/models.proto";
+
+service StorageService {
+  rpc AddMemory(AddMemoryRequest) returns (AddMemoryResponse);
+  rpc GetMemory(GetMemoryRequest) returns (GetMemoryResponse);
+  rpc UpdateMemory(UpdateMemoryRequest) returns (UpdateMemoryResponse);
+  rpc DeleteMemory(DeleteMemoryRequest) returns (DeletedResponse);
+  rpc SearchQuery(SearchQueryRequest) returns (SearchResultList);
+  rpc SearchFullText(SearchFullTextRequest) returns (SearchResultList);
+  rpc SearchByEntities(SearchByEntitiesRequest) returns (SearchResultList);
+  rpc SearchByVector(SearchByVectorRequest) returns (SearchResultList);
+  rpc TouchMemory(TouchMemoryRequest) returns (BoolResponse);
+  rpc TraceAncestors(TraceAncestorsRequest) returns (MemoryList);
+  rpc TraceDescendants(TraceDescendantsRequest) returns (MemoryList);
+  rpc ListMemories(ListMemoriesRequest) returns (MemoryList);
+  rpc AddRelation(AddRelationRequest) returns (CreatedResponse);
+  rpc ListRelations(ListRelationsRequest) returns (RelationList);
+  rpc RelationExists(RelationExistsRequest) returns (BoolResponse);
+  rpc GetEvolutionEvents(GetEvolutionEventsRequest) returns (EvolutionEventList);
+  rpc GetAuditEvents(GetAuditEventsRequest) returns (AuditEventList);
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+message AddMemoryRequest {
+  MemoryItem item = 1;
+}
+
+message AddMemoryResponse {
+  MemoryItem item = 1;
+}
+
+message GetMemoryRequest {
+  string memory_id = 1;
+}
+
+message UpdateMemoryRequest {
+  MemoryItem item = 1;
+}
+
+message UpdateMemoryResponse {
+  MemoryItem item = 1;
+}
+
+message DeleteMemoryRequest {
+  string memory_id = 1;
+}
+
+message SearchQueryRequest {
+  string query = 1;
+  repeated float embedding = 2;
+  repeated string entities = 3;
+  int32 limit = 4;
+}
+
+message SearchFullTextRequest {
+  string query = 1;
+  int32 limit = 2;
+  string memory_type = 3;
+}
+
+message SearchByEntitiesRequest {
+  repeated string entities = 1;
+  int32 limit = 2;
+  string memory_type = 3;
+}
+
+message SearchByVectorRequest {
+  repeated float embedding = 1;
+  int32 limit = 2;
+  string memory_type = 3;
+}
+
+message TouchMemoryRequest {
+  string memory_id = 1;
+}
+
+message TraceAncestorsRequest {
+  string memory_id = 1;
+  int32 max_depth = 2;
+}
+
+message TraceDescendantsRequest {
+  string memory_id = 1;
+  int32 max_depth = 2;
+}
+
+message ListMemoriesRequest {
+  bool include_deleted = 1;
+}
+
+message AddRelationRequest {
+  RelationEdge edge = 1;
+}
+
+message ListRelationsRequest {
+  string memory_id = 1;
+}
+
+message RelationExistsRequest {
+  string left_id = 1;
+  string right_id = 2;
+  repeated string relation_types = 3;
+}
+
+message GetEvolutionEventsRequest {
+  string memory_id = 1;
+  int32 limit = 2;
+}
+
+message GetAuditEventsRequest {
+  int32 limit = 1;
+}
+
+message HealthCheckRequest {}

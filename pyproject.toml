@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-memory-engine"
-version = "0.1.1"
+version = "0.2.0"
 description = "Zero-config, traceable, MCP-native long-term memory for agents."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -41,6 +41,9 @@ mcp = [
 api = [
   "fastapi>=0.115.0",
   "uvicorn>=0.30.0",
+]
+remote = [
+  "grpcio>=1.70.0",
 ]
 
 [project.scripts]

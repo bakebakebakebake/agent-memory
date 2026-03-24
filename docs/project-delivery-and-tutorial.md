@@ -112,8 +112,8 @@ Naming:
 
 - git initialization and GitHub publishing
 - built artifacts:
-  - `dist/agent_memory_engine-0.1.1-py3-none-any.whl`
-  - `dist/agent_memory_engine-0.1.1.tar.gz`
+  - `dist/agent_memory_engine-0.2.0-py3-none-any.whl`
+  - `dist/agent_memory_engine-0.2.0.tar.gz`
 - GitHub Releases
 - PyPI publishing
 
@@ -259,7 +259,8 @@ Current public release state:
 
 - GitHub Release: `v0.1.0`
 - GitHub Release: `v0.1.1`
-- PyPI package: `agent-memory-engine==0.1.1`
+- GitHub Release: `v0.2.0`
+- PyPI package: `agent-memory-engine==0.2.0`
 
 Key references:
 

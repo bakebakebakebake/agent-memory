@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package memory.v1;
+
+option go_package = "github.com/bakebakebakebake/agent-memory/go-server/gen/memory/v1;memoryv1";
+
+service AIService {
+  rpc Embed(EmbedRequest) returns (EmbedResponse);
+  rpc ExtractMemories(ExtractMemoriesRequest) returns (ExtractMemoriesResponse);
+  rpc JudgeConflict(JudgeConflictRequest) returns (JudgeConflictResponse);
+  rpc MergeDraft(MergeDraftRequest) returns (MergeDraftResponse);
+}
+
+message EmbedRequest {
+  repeated string texts = 1;
+}
+
+message EmbedResponse {
+  repeated Embedding embeddings = 1;
+}
+
+message Embedding {
+  repeated float values = 1;
+}
+
+message ExtractMemoriesRequest {
+  repeated ConversationTurn turns = 1;
+  string source_id = 2;
+}
+
+message ExtractMemoriesResponse {
+  repeated DraftMemory items = 1;
+}
+
+message ConversationTurn {
+  string role = 1;
+  string content = 2;
+  string timestamp = 3;
+}
+
+message DraftMemory {
+  string content = 1;
+  string memory_type = 2;
+  double importance = 3;
+  double trust_score = 4;
+  string source_id = 5;
+  string causal_parent_id = 6;
+  string supersedes_id = 7;
+  repeated string entity_refs = 8;
+  repeated string tags = 9;
+}
+
+message JudgeConflictRequest {
+  string existing_content = 1;
+  string candidate_content = 2;
+}
+
+message JudgeConflictResponse {
+  string label = 1;
+  double confidence = 2;
+  string reason = 3;
+}
+
+message MergeDraftRequest {
+  repeated string contents = 1;
+  string source_id = 2;
+}
+
+message MergeDraftResponse {
+  DraftMemory item = 1;
+}

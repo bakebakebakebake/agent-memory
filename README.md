@@ -12,7 +12,7 @@ Zero-config, traceable, MCP-native long-term memory for agents.
 
 Install from PyPI with `pip install agent-memory-engine`.
 
-Current packaged release: `0.1.1`.
+Current packaged release: `0.2.0`.
 
 ## Documentation
 
@@ -32,8 +32,11 @@ Current packaged release: `0.1.1`.
 ## Current Status
 
 - SQLite backend with WAL, FTS5, audit log, evolution log, entity index, and causal parent links
+- Go service workspace with SQLite storage engine, schema migration, REST gateway, gRPC server, auth hooks, metrics, tracing bootstrap, and Cobra CLI
 - Schema indexes for type, layer, recency, trust, source, relation, and audit hot paths
 - Python SDK via `MemoryClient`
+- Python `MemoryClient` now supports `embedded` and `remote` modes through `SQLiteBackend` and `RemoteBackend`
+- In service mode, fused retrieval orchestration can run inside the Go service over REST/gRPC
 - Rule-based intent router with Reciprocal Rank Fusion
 - Adaptive forgetting utilities with dual-threshold layer transitions
 - Heuristic conflict detection with contradiction edges and trust-score adjustment
@@ -85,27 +88,43 @@ health = client.health()
 print(health.suggestions)
 ```
 
+### Service mode
+
+```bash
+make proto
+cd go-server && go run ./cmd/server
+```
+
+```bash
+export AGENT_MEMORY_MODE=remote
+export AGENT_MEMORY_GO_SERVER_URL=http://127.0.0.1:8080
+export AGENT_MEMORY_GRPC_TARGET=127.0.0.1:9090
+agent-memory search "Why SQLite?"
+```
+
 ## Architecture
 
 ```mermaid
 graph TD
-    A["Python SDK / CLI"] --> B["MemoryClient"]
-    C["MCP Server"] --> B
-    D["REST API"] --> B
-    B --> E["Intent Router"]
-    B --> F["Conflict Detector"]
-    B --> G["Trust Scorer"]
-    B --> H["Forgetting Engine"]
-    E --> I["SQLite Backend"]
-    F --> I
-    G --> I
-    H --> I
-    I --> J[("SQLite + FTS5 + sqlite-vec")]
+    A["Python SDK / MCP"] --> B["MemoryClient"]
+    B --> C{"Mode"}
+    C -->|"embedded"| D["SQLiteBackend (Python)"]
+    C -->|"remote"| E["RemoteBackend"]
+    E --> F["Go REST / gRPC"]
+    F --> G["SQLite Storage Engine"]
+    G --> H[("SQLite + WAL + vector fallback")]
+    B --> I["Intent Router / Conflict / Trust"]
 ```
 
 ### Core components
 
 - `src/agent_memory/client.py` — high-level SDK entry point
+- `src/agent_memory/storage/remote_backend.py` — REST/gRPC bridge to the Go service
+- `proto/memory/v1/` — shared Protobuf contracts
+- `go-server/cmd/server/main.go` — Go service entrypoint with graceful shutdown
+- `go-server/internal/storage/sqlite.go` — Go storage engine
+- `go-server/internal/gateway/handler.go` — Go REST handlers
+- `go-server/internal/grpc/server.go` — Go gRPC implementation
 - `src/agent_memory/storage/sqlite_backend.py` — SQLite persistence, FTS, vector fallback, trace queries
 - `src/agent_memory/controller/router.py` — intent-aware retrieval routing and RRF fusion
 - `src/agent_memory/controller/forgetting.py` — Ebbinghaus-inspired adaptive forgetting
@@ -131,6 +150,9 @@ graph TD
 
 ```text
 agent-memory/
+├── deploy/
+├── go-server/
+├── proto/
 ├── docs/plans/
 ├── examples/
 ├── src/agent_memory/

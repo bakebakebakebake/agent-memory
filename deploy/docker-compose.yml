@@ -1,0 +1,26 @@
+services:
+  go-server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.go-server
+    environment:
+      AGENT_MEMORY_DATABASE_PATH: /data/agent-memory.db
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - agent-memory-data:/data
+
+  python-ai:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.python-ai
+    environment:
+      AGENT_MEMORY_MODE: remote
+      AGENT_MEMORY_GO_SERVER_URL: http://go-server:8080
+      AGENT_MEMORY_GRPC_TARGET: go-server:9090
+    depends_on:
+      - go-server
+
+volumes:
+  agent-memory-data:

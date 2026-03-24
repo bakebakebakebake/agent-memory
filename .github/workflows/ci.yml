@@ -18,6 +18,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go-server/go.mod
+          cache-dependency-path: go-server/go.sum
       - run: python -m pip install --upgrade pip
       - run: pip install -e '.[dev,remote]'
       - run: pytest -q

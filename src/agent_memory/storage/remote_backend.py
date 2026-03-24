@@ -44,7 +44,26 @@ def _relation_to_payload(edge: RelationEdge) -> dict[str, object]:
 
 
 def _parse_datetime(value: str | None) -> datetime | None:
-    return datetime.fromisoformat(value) if value else None
+    if not value:
+        return None
+    normalized = value
+    if normalized.endswith("Z"):
+        normalized = f"{normalized[:-1]}+00:00"
+    if "T" in normalized and "." in normalized:
+        date_part, time_part = normalized.split("T", 1)
+        tz_index = len(time_part)
+        for marker in ("+", "-"):
+            candidate = time_part.find(marker, 8)
+            if candidate != -1:
+                tz_index = min(tz_index, candidate)
+        main = time_part[:tz_index]
+        suffix = time_part[tz_index:]
+        if "." in main:
+            seconds_part, fractional_part = main.split(".", 1)
+            if len(fractional_part) > 6:
+                main = f"{seconds_part}.{fractional_part[:6]}"
+                normalized = f"{date_part}T{main}{suffix}"
+    return datetime.fromisoformat(normalized)
 
 
 def _memory_from_payload(payload: dict[str, Any]) -> MemoryItem:

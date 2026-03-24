@@ -129,6 +129,30 @@ def test_remote_backend_parses_http_payload(monkeypatch) -> None:
     assert health["total_memories"] == 3
 
 
+def test_remote_backend_parses_rfc3339nano_timestamps() -> None:
+    item = remote_backend_module._memory_from_payload(
+        {
+            "id": "m-rfc3339nano",
+            "content": "Go timestamps should parse in Python.",
+            "memory_type": "semantic",
+            "embedding": [0.1, 0.2, 0.3],
+            "created_at": "2026-03-24T19:29:38.933885448Z",
+            "last_accessed": "2026-03-24T19:29:38.933885448Z",
+            "access_count": 1,
+            "trust_score": 0.8,
+            "importance": 0.6,
+            "layer": "short_term",
+            "decay_rate": 0.1,
+            "source_id": "go-server",
+            "entity_refs": ["grpc"],
+            "tags": ["remote"],
+        }
+    )
+
+    assert item.created_at.tzinfo is not None
+    assert item.created_at.microsecond == 933885
+
+
 def test_remote_backend_relation_exists_uses_grpc_bool_value(monkeypatch) -> None:
     backend = RemoteBackend(
         AgentMemoryConfig(

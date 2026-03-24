@@ -163,6 +163,7 @@ def test_remote_backend_uses_grpc_with_go_server(tmp_path) -> None:
     project_root = Path(__file__).resolve().parents[1]
     go_server_dir = project_root / "go-server"
     db_path = tmp_path / "grpc-test.db"
+    binary_path = tmp_path / "agent-memory-go-server"
     http_port = _find_free_port()
     grpc_port = _find_free_port(exclude={http_port})
     env = os.environ.copy()
@@ -174,9 +175,20 @@ def test_remote_backend_uses_grpc_with_go_server(tmp_path) -> None:
             "AGENT_MEMORY_API_KEY": "grpc-test-key",
         }
     )
-    process = subprocess.Popen(
-        ["go", "run", "./cmd/server"],
+    build = subprocess.run(
+        ["go", "build", "-o", str(binary_path), "./cmd/server"],
         cwd=go_server_dir,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+    )
+    if build.returncode != 0:
+        raise AssertionError(f"Failed to build Go server binary:\n{build.stdout}")
+    process = subprocess.Popen(
+        [str(binary_path)],
+        cwd=tmp_path,
         env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,

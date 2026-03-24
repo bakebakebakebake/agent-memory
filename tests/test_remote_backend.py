@@ -3,14 +3,18 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import os
 from pathlib import Path
+import shutil
 import socket
 import subprocess
 import time
 from types import SimpleNamespace
 
+import pytest
+
 from agent_memory.client import MemoryClient
 from agent_memory.config import AgentMemoryConfig
 from agent_memory.models import MemoryItem, MemoryType
+from agent_memory.storage import remote_backend as remote_backend_module
 from agent_memory.storage.remote_backend import RemoteBackend
 
 
@@ -125,7 +129,7 @@ def test_remote_backend_parses_http_payload(monkeypatch) -> None:
     assert health["total_memories"] == 3
 
 
-def test_remote_backend_relation_exists_uses_grpc_bool_value() -> None:
+def test_remote_backend_relation_exists_uses_grpc_bool_value(monkeypatch) -> None:
     backend = RemoteBackend(
         AgentMemoryConfig(
             mode="remote",
@@ -135,6 +139,11 @@ def test_remote_backend_relation_exists_uses_grpc_bool_value() -> None:
         )
     )
     backend._grpc_stub = object()
+    monkeypatch.setattr(
+        remote_backend_module,
+        "storage_service_pb2",
+        SimpleNamespace(RelationExistsRequest=lambda **kwargs: SimpleNamespace(**kwargs)),
+    )
 
     def fake_grpc_call(method: str, request):
         assert method == "RelationExists"
@@ -149,6 +158,8 @@ def test_remote_backend_relation_exists_uses_grpc_bool_value() -> None:
 
 
 def test_remote_backend_uses_grpc_with_go_server(tmp_path) -> None:
+    if shutil.which("go") is None:
+        pytest.skip("go toolchain is required for the gRPC integration test")
     project_root = Path(__file__).resolve().parents[1]
     go_server_dir = project_root / "go-server"
     db_path = tmp_path / "grpc-test.db"
@@ -219,7 +230,7 @@ def test_remote_backend_uses_grpc_with_go_server(tmp_path) -> None:
             process.wait(timeout=10)
 
 
-def _wait_for_port(host: str, port: int, timeout: float = 20.0, process: subprocess.Popen[str] | None = None) -> None:
+def _wait_for_port(host: str, port: int, timeout: float = 60.0, process: subprocess.Popen[str] | None = None) -> None:
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:

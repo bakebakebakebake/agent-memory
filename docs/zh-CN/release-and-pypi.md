@@ -16,7 +16,8 @@
 - GitHub Release：`v0.1.0`
 - GitHub Release：`v0.1.1`
 - GitHub Release：`v0.2.0`
-- PyPI：`agent-memory-engine==0.2.0`
+- GitHub Release：`v0.2.1`
+- PyPI：`agent-memory-engine==0.2.1`
 
 ## 发布检查清单
 
@@ -33,8 +34,8 @@
 5. 创建 git tag：
 
    ```bash
-   git tag v0.2.1
-   git push origin v0.2.1
+   git tag v0.2.2
+   git push origin v0.2.2
    ```
 
 6. 基于 tag 创建 GitHub Release，并上传 `dist/` 中的产物

@@ -12,7 +12,7 @@ Zero-config, traceable, MCP-native long-term memory for agents.
 
 Install from PyPI with `pip install agent-memory-engine`.
 
-Current packaged release: `0.2.0`.
+Current packaged release: `0.2.1`.
 
 ## Documentation
 

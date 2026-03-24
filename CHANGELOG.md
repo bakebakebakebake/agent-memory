@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.2.1] - 2026-03-25
+
+### Fixed
+
+- Fixed GitHub Actions so CI installs the remote gRPC dependency set and prepares the Go toolchain before running tests.
+- Fixed the remote-backend gRPC integration test by prebuilding the Go server binary, which removes `go run` startup jitter on clean runners.
+- Fixed Python-side timestamp parsing for Go RFC3339Nano responses, including `Z` suffixes and nanosecond precision.
+
+### Changed
+
+- Added regression coverage for Go-style timestamps and stabilized remote-backend CI checks across Python `3.10` to `3.12`.
+
 ## [0.2.0] - 2026-03-25
 
 ### Added

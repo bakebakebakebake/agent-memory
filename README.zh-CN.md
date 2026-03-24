@@ -16,7 +16,7 @@
 pip install agent-memory-engine
 ```
 
-当前已发布版本：`0.2.0`
+当前已发布版本：`0.2.1`
 
 ## 文档
 

@@ -80,6 +80,27 @@ func TestRoutesExposeMetricsAndHonorAuth(t *testing.T) {
 		t.Fatalf("unexpected health payload: %#v", health)
 	}
 
+	infoRequest, err := http.NewRequest(http.MethodGet, server.URL+"/api/v1/info", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	infoRequest.Header.Set("X-API-Key", "test-key")
+	infoResponse, err := http.DefaultClient.Do(infoRequest)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer infoResponse.Body.Close()
+	var infoPayload map[string]any
+	if err := json.NewDecoder(infoResponse.Body).Decode(&infoPayload); err != nil {
+		t.Fatal(err)
+	}
+	if infoResponse.StatusCode != http.StatusOK {
+		t.Fatalf("expected info endpoint to return 200, got %d", infoResponse.StatusCode)
+	}
+	if infoPayload["sqlite_vec_status"] != "not_applicable_in_go_server" {
+		t.Fatalf("unexpected info payload: %#v", infoPayload)
+	}
+
 	now := time.Now().UTC().Format(time.RFC3339Nano)
 	for _, item := range []*memoryv1.MemoryItem{
 		{Id: "left", Content: "left memory", MemoryType: "semantic", Embedding: []float32{0.1}, CreatedAt: now, LastAccessed: now, TrustScore: 0.8, Importance: 0.5, Layer: "short_term", DecayRate: 0.1, SourceId: "test"},

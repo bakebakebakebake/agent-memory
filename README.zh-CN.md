@@ -22,6 +22,7 @@ pip install agent-memory-engine
 
 - 英文文档索引：`docs/README.md`
 - 中文文档索引：`docs/zh-CN/README.md`
+- 教学系列入口：`docs/teaching/01-project-overview.md`
 - 项目交付与完整教程：`docs/zh-CN/project-delivery-and-tutorial.md`
 - MCP 集成指南：`docs/zh-CN/mcp-integration.md`
 - 发布与 PyPI 指南：`docs/zh-CN/release-and-pypi.md`
@@ -188,7 +189,10 @@ python -m agent_memory.interfaces.mcp_server
 ## 开发提示
 
 - 运行测试：`.venv/bin/python -m pytest -q`
+- Go 测试：`cd go-server && go test ./...`
+- Go benchmark：`make go-bench`
 - 查看 CLI 帮助：`agent-memory --help`
 - 如果 `sqlite-vec` 运行时不可用，会自动退回 Python 余弦扫描
 - 存储/检索微基准：`python benchmarks/bench_storage.py`、`python benchmarks/bench_retrieval.py`
+- Go/Python 对比：`make bench-compare`
 - Demo runner：`python examples/benchmark_runner.py`

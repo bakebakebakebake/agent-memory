@@ -18,6 +18,7 @@ Current packaged release: `0.2.1`.
 
 - English docs index: `docs/README.md`
 - 中文文档索引: `docs/zh-CN/README.md`
+- Teaching series entry: `docs/teaching/01-project-overview.md`
 - Delivery tutorial: `docs/project-delivery-and-tutorial.md`
 - MCP guide: `docs/mcp-integration.md`
 - Release guide: `docs/release-and-pypi.md`
@@ -230,7 +231,10 @@ More details: `docs/mcp-integration.md`
 ## Dev Notes
 
 - Run all tests with `.venv/bin/python -m pytest -q`
+- Run Go tests with `cd go-server && go test ./...`
+- Run Go benchmarks with `make go-bench`
 - Use the built-in CLI with `agent-memory --help`
 - `sqlite-vec` is installed as a package dependency; if the extension cannot be loaded at runtime, vector search safely falls back to Python cosine scan
 - Try microbenchmarks with `python benchmarks/bench_storage.py` and `python benchmarks/bench_retrieval.py`
+- Compare Python and Go with `make bench-compare`
 - Try the demo runner with `python examples/benchmark_runner.py`

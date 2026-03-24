@@ -1,278 +1,181 @@
-# Agent Memory 项目交付记录与完整教程
+# Agent Memory 项目交付记录与教程
 
 [English](../project-delivery-and-tutorial.md) | [简体中文](project-delivery-and-tutorial.md)
 
-日期：`2026-03-24`
+日期：`2026-03-25`
 
 ## 1. 文档用途
 
-这份文档回答两个核心问题：
+这份文档回答两个问题：
 
-1. 这个项目目前到底做到了什么程度？
-2. 别人拿到仓库之后，应该如何运行、验证、演示与继续扩展？
-
-它可以同时作为：
-
-- 项目交付说明
-- GitHub 仓库的长文档入口
-- 对外介绍时的讲解脚本参考
-- 后续迭代时的总索引
+1. 仓库现在已经做到了什么程度
+2. 别人拿到仓库后该如何运行、验证、演示和继续扩展
 
 ## 2. 项目目标
 
-`agent-memory` 是一个零配置、可追溯、MCP 原生的 Agent 长期记忆引擎。
+`agent-memory` 是一个本地优先、可追溯、MCP 原生的 Agent 长期记忆引擎。
 
-- 安装方式：`pip install`
-- 默认存储：本地 `SQLite`
-- 核心能力：
-  - 长期记忆存储
-  - 意图感知检索
-  - 因果追溯
-  - 冲突检测
-  - 自适应遗忘
-  - 记忆健康监控
-  - MCP 工具集成
+当前已经形成两种执行模式：
 
-它的定位不是“另一个向量库”，而是一个面向 Agent 工作流的记忆系统。
-
-命名：
-
-- GitHub 仓库：`agent-memory`
-- PyPI 包名：`agent-memory-engine`
-- CLI 命令：`agent-memory`
+- Python `MemoryClient` 直接访问嵌入式后端
+- Python 端通过 Go 服务访问远程后端
 
 ## 3. 已完成内容
 
 ### 3.1 核心能力
 
-**存储层**
+**Python 智能面**
 
-- 基于 `SQLiteBackend`
-- 包含 memories、vectors、entities、relations、evolution、audit、metadata 等表
-- 支持 WAL
-- 支持 FTS5 全文检索
-- 支持常用查询与追溯路径索引
+- 统一入口 `MemoryClient`
+- embedding、实体提取、对话提取、冲突检测、信任评分、遗忘与治理模块
+- 11 个 MCP 工具
 
-**检索层**
+**Go 服务层**
 
-- 语义检索，优先 `sqlite-vec`
-- 不可用时自动回退到 Python 余弦扫描
-- 支持全文、实体和因果祖先检索
-- 基于规则的意图路由
-- 基于 RRF 的多路结果融合
+- `go-server/internal/storage/sqlite.go` 中的 SQLite 存储引擎
+- `proto/memory/v1/storage_service.proto` 中的 18 个 gRPC RPC
+- 19 个 REST 操作，包含 `/health`、`/metrics` 和 `/api/v1/info`
+- API Key / JWT 认证
+- Prometheus 指标、`slog`、tracing 初始化与优雅关停
+- Go CLI
 
-**治理层**
+**检索与治理**
 
-- 健康报告
-- 冲突检测
-- 遗忘策略
-- 巩固规划
-- 审计和演化历史查看
-- JSONL 导出导入
-
-**接口层**
-
-- Python SDK：`MemoryClient`
-- CLI：`agent-memory`
-- MCP Server：`agent_memory.interfaces.mcp_server`
-- REST 适配层：`rest_api.py`
-
-**智能层**
-
-- 对话到记忆的提取管线
-- LLM 优先、规则兜底
-- OpenAI / Ollama 轻量客户端
+- semantic / full-text / entity / causal trace
+- 意图路由与 RRF
+- contradiction 关系、审计日志、演化日志、JSONL 导出和健康快照
 
 ### 3.2 工程化工作
 
-**基础工程**
-
-- `.gitignore`
-- `LICENSE`
-- GitHub Actions CI
-
 **测试**
 
-- `tests/conftest.py`
-- 稳定的 dummy embeddings
-- MCP 回归测试
+- 保留既有 Python 测试体系
+- 新增 Go 侧 orchestrator、auth、config、governance、storage、forgetting、trust 测试
+- 新增 Go benchmark：storage、router、orchestrator
 
-**示例**
+**构建与交付**
 
-- `examples/demo_cross_session.py`
-- `examples/interactive_chat.py`
-- `examples/mcp_server.py`
+- `deploy/docker-compose.yml`
+- `deploy/Dockerfile.go-server`
+- `deploy/Dockerfile.python-ai`
+- CI 现在同时运行 Python 测试/构建，以及 `go test ./...` 和 `go test -race ./...`
 
-**Benchmark**
+**性能资产**
 
-- 扩展 LOCOMO-Lite 风格数据
-- `benchmarks/locomo_lite/evaluate.py`
-- `benchmarks/locomo_lite/latest_results.json`
+- `benchmarks/compare_go_python.py`
+- `benchmarks/k6/http-load.js`
+- `benchmarks/k6/grpc-load.js`
 
-**文档**
+### 3.3 本轮交付新增点
 
-- `README.md`
-- `CHANGELOG.md`
-- benchmark、MCP、发布与交付文档
-- 扩展优化建议文档
-
-**发布**
-
-- Git 初始化与 GitHub 推送
-- wheel / sdist 打包
-- GitHub Releases
-- PyPI 发布
-
-### 3.3 已修复的重要问题
-
-**MCP 场景下的 SQLite 线程问题**
-
-- 现象：MCP 调用时出现 SQLite thread error
-- 修复：使用 `check_same_thread=False`
-
-**embedding JSON 序列化问题**
-
-- 现象：`numpy.float32` 无法直接 JSON 序列化
-- 修复：统一转成原生 `float`
-
-**测试触发模型下载**
-
-- 现象：测试慢且不稳定
-- 修复：默认使用 dummy embedding provider
-
-**MCP 导入时告警**
-
-- 现象：接口模块导入时出现噪音
-- 修复：改为懒加载导出
+- 新增 `/api/v1/info`，方便读取版本、构建信息、运行时和 uptime
+- 新增一批 Go 测试与边界覆盖
+- 新增 Go 原生 benchmark、Go/Python 对比脚本与 k6 压测脚本
+- 重建文档体系，入口放在 `docs/teaching/`
 
 ## 4. 当前完成度
 
-从项目交付角度看，当前版本已经可以：
+当前仓库已经适合用于：
 
-- 本地运行
-- 存储和检索
-- 接入 MCP
-- 跑 benchmark
-- 运行测试
-- 打包发布
-- 做现场 demo
+- 本地 SDK 使用
+- 服务模式部署
+- REST / gRPC 演示
+- MCP 接入
+- 基准与对比测试
+- 面试项目讲解
 
-仍值得继续深化的方向：
+后续仍值得继续做的方向：
 
-- 时间语义检索
-- 巩固质量
-- 提取去重和后处理
-- 完整的 `OpenAIEmbeddingProvider`
-- migration、多租户和可观测性
+- Go 向量检索继续提速
+- 多租户隔离
+- 更强的冲突复判
+- 定时治理任务
 
-## 5. 目录结构
+## 5. 仓库结构
 
 ```text
 agent-memory/
-├── .github/workflows/ci.yml
 ├── benchmarks/
+│   ├── compare_go_python.py
+│   ├── k6/
+│   └── locomo_lite/
+├── deploy/
 ├── docs/
-├── examples/
+│   ├── teaching/
+│   └── zh-CN/
+├── go-server/
+├── proto/
 ├── src/agent_memory/
 └── tests/
 ```
 
 ## 6. 如何运行项目
 
-从 PyPI 安装：
+### 嵌入模式
 
 ```bash
 pip install agent-memory-engine
+agent-memory store "User prefers SQLite for local-first agents." --source-id demo
+agent-memory search "Why SQLite?"
 ```
 
-从源码运行：
+### 服务模式
 
 ```bash
 git clone https://github.com/bakebakebakebake/agent-memory.git
 cd agent-memory
 python -m venv .venv
 source .venv/bin/activate
-pip install -e '.[dev]'
-```
-
-基本 CLI 验证：
-
-```bash
-agent-memory store "用户偏好 SQLite 做本地优先 Agent 项目。" --source-id demo
-agent-memory search "用户偏好什么数据库？"
-agent-memory health
+pip install -e '.[dev,remote]'
+cd go-server && go run ./cmd/server
 ```
 
 ## 7. 如何验证项目
 
-运行测试：
+```bash
+cd go-server && go test ./...
+```
+
+```bash
+cd go-server && go test -run=^$ -bench=. ./...
+```
 
 ```bash
 .venv/bin/python -m pytest -q
 ```
 
-构建产物：
-
 ```bash
-.venv/bin/python -m build
+PYTHONPATH=src .venv/bin/python benchmarks/compare_go_python.py --scales 100 1000
 ```
 
-运行 benchmark：
-
-```bash
-.venv/bin/python benchmarks/locomo_lite/evaluate.py
-cat benchmarks/locomo_lite/latest_results.json
-```
-
-启动 MCP：
-
-```bash
-pip install -e .[mcp]
-python -m agent_memory.interfaces.mcp_server
-```
-
-## 8. 推荐 Demo 流程
-
-建议按下面顺序演示：
+## 8. 推荐演示流程
 
 1. 写入一条偏好记忆
 2. 问一个 factual 问题
 3. 问一个 causal 问题
-4. 查看 trace graph
-5. 查看 health report
+4. 打开 trace graph
+5. 查看 `/health`
+6. 查看 `/api/v1/info`
 
 推荐提示词：
 
 - “请记住：我偏好 SQLite 做本地优先 Agent 项目。”
 - “我偏好什么数据库？”
 - “为什么我选择 SQLite？”
-- “展示这条记忆的追溯链。”
-- “展示当前记忆健康报告。”
+- “展示这条记忆的追踪链。”
+- “展示当前健康报告。”
 
-## 9. 当前发布状态
+## 9. 关键文档
 
-- GitHub Release：`v0.1.0`
-- GitHub Release：`v0.1.1`
-- GitHub Release：`v0.2.0`
-- GitHub Release：`v0.2.1`
-- PyPI 包：`agent-memory-engine==0.2.1`
-
-参考：
-
-- `CHANGELOG.md`
-- `docs/release-and-pypi.md`
-- `docs/benchmark-results.md`
+- `../teaching/01-project-overview.md`
+- `../teaching/02-architecture-deep-dive.md`
+- `../teaching/03-algorithm-guide.md`
+- `../teaching/11-performance-benchmarking.md`
+- `../teaching/12-interview-guide.md`
 
 ## 10. 下一步建议
 
-下一阶段最值得做的事情：
-
-- 在 health 里暴露 `sqlite-vec` 状态
-- 做更强的结构化提取和去重
-- 补强 temporal retrieval
-- 把 consolidation 深化成主题级压缩
-- 增加 migration 与多租户隔离
-
-更长的路线图见：
-
-- `docs/zh-CN/plans/2026-03-24-agent-memory-expansion-review.md`
+- 优化 Go 向量检索热路径
+- 增加多租户隔离
+- 把治理任务做成可调度作业
+- 继续补服务端运维工具链

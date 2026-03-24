@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
+	"runtime"
+	"runtime/debug"
 	"strconv"
 	"strings"
 	"time"
@@ -22,16 +24,24 @@ type Handler struct {
 	orchestrator *search.Orchestrator
 	config       config.Config
 	metrics      *observability.Metrics
+	startedAt    time.Time
 }
 
 func NewHandler(backend *storage.Backend, orchestrator *search.Orchestrator, cfg config.Config, metrics *observability.Metrics) *Handler {
-	return &Handler{backend: backend, orchestrator: orchestrator, config: cfg, metrics: metrics}
+	return &Handler{
+		backend:      backend,
+		orchestrator: orchestrator,
+		config:       cfg,
+		metrics:      metrics,
+		startedAt:    time.Now().UTC(),
+	}
 }
 
 func (handler *Handler) Routes(logger *slog.Logger) http.Handler {
 	mux := http.NewServeMux()
 	mux.Handle("/metrics", promhttp.Handler())
 	mux.HandleFunc("/health", handler.handleHealth)
+	mux.HandleFunc("/api/v1/info", handler.handleInfo)
 	mux.HandleFunc("/api/v1/memories", handler.handleMemories)
 	mux.HandleFunc("/api/v1/memories/", handler.handleMemoryByID)
 	mux.HandleFunc("/api/v1/search/full-text", handler.handleSearchFullText)
@@ -62,6 +72,33 @@ func (handler *Handler) handleHealth(writer http.ResponseWriter, request *http.R
 	}
 	handler.metrics.MemoryTotal.Set(float64(snapshot.TotalMemories))
 	writeJSON(writer, http.StatusOK, snapshot)
+}
+
+func (handler *Handler) handleInfo(writer http.ResponseWriter, _ *http.Request) {
+	buildVersion := "dev"
+	buildPath := ""
+	buildSettings := map[string]string{}
+	if info, ok := debug.ReadBuildInfo(); ok {
+		if info.Main.Version != "" && info.Main.Version != "(devel)" {
+			buildVersion = info.Main.Version
+		}
+		buildPath = info.Main.Path
+		for _, setting := range info.Settings {
+			if strings.HasPrefix(setting.Key, "vcs.") {
+				buildSettings[setting.Key] = setting.Value
+			}
+		}
+	}
+
+	writeJSON(writer, http.StatusOK, map[string]any{
+		"version":            buildVersion,
+		"build":              map[string]any{"path": buildPath, "settings": buildSettings},
+		"go_version":         runtime.Version(),
+		"sqlite_vec_status":  "not_applicable_in_go_server",
+		"vector_search_mode": "cosine_scan",
+		"started_at":         handler.startedAt.Format(time.RFC3339Nano),
+		"uptime_seconds":     time.Since(handler.startedAt).Seconds(),
+	})
 }
 
 func (handler *Handler) handleMemories(writer http.ResponseWriter, request *http.Request) {

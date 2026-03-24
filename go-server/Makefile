@@ -1,6 +1,6 @@
 PROTO_DIR=../proto
 
-.PHONY: proto build test
+.PHONY: proto build test bench
 
 proto:
 	protoc -I $(PROTO_DIR) \
@@ -15,3 +15,6 @@ build:
 
 test:
 	go test ./...
+
+bench:
+	go test -run=^$$ -bench=. ./...

@@ -1,6 +1,6 @@
 PROTO_DIR=proto
 
-.PHONY: proto test go-test py-test build docker-up
+.PHONY: proto test go-test py-test build docker-up go-bench bench-compare
 
 proto:
 	export PATH="$$(go env GOPATH)/bin:$$PATH" && protoc -I $(PROTO_DIR) \
@@ -20,6 +20,9 @@ proto:
 go-test:
 	cd go-server && go test ./...
 
+go-bench:
+	cd go-server && go test -run=^$$ -bench=. ./...
+
 py-test:
 	pytest -q
 
@@ -30,3 +33,6 @@ build:
 
 docker-up:
 	docker compose -f deploy/docker-compose.yml up --build
+
+bench-compare:
+	PYTHONPATH=src .venv/bin/python benchmarks/compare_go_python.py

@@ -65,3 +65,100 @@ func TestBackendAddGetSearchAndDelete(t *testing.T) {
 		t.Fatal("expected delete to succeed")
 	}
 }
+
+func TestBackendUpdateTraceRelationsAndGovernance(t *testing.T) {
+	backend, err := New(":memory:")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer backend.Close()
+
+	ctx := context.Background()
+	root := buildMemory("root", "SQLite is the storage layer", "")
+	child := buildMemory("child", "Go service exposes REST and gRPC", "root")
+	leaf := buildMemory("leaf", "The client queries through fused search", "child")
+	for _, item := range []*memoryv1.MemoryItem{root, child, leaf} {
+		if _, err := backend.AddMemory(ctx, item); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	child.Content = "Go service exposes REST, gRPC, and auth middleware"
+	child.Tags = append(child.Tags, "updated")
+	if _, err := backend.UpdateMemory(ctx, child); err != nil {
+		t.Fatal(err)
+	}
+	updated, err := backend.GetMemory(ctx, "child")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if updated == nil || updated.Content != child.Content {
+		t.Fatalf("unexpected updated memory: %#v", updated)
+	}
+
+	ancestors, err := backend.TraceAncestors(ctx, "leaf", 5)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(ancestors) != 2 || ancestors[0].Id != "child" || ancestors[1].Id != "root" {
+		t.Fatalf("unexpected ancestors: %#v", ancestors)
+	}
+
+	descendants, err := backend.TraceDescendants(ctx, "root", 5)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(descendants) != 2 || descendants[0].Id != "child" || descendants[1].Id != "leaf" {
+		t.Fatalf("unexpected descendants: %#v", descendants)
+	}
+
+	created, err := backend.AddRelation(ctx, &memoryv1.RelationEdge{
+		SourceId:     "root",
+		TargetId:     "leaf",
+		RelationType: "supports",
+		CreatedAt:    time.Now().UTC().Format(time.RFC3339Nano),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !created {
+		t.Fatal("expected relation to be created")
+	}
+	exists, err := backend.RelationExistsBetween(ctx, "root", "leaf", []string{"supports"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !exists {
+		t.Fatal("expected relation to exist")
+	}
+	relations, err := backend.ListRelations(ctx, "leaf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(relations) != 1 {
+		t.Fatalf("unexpected relations: %#v", relations)
+	}
+
+	evolutionEvents, err := backend.GetEvolutionEvents(ctx, "child", 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(evolutionEvents) == 0 {
+		t.Fatal("expected evolution events after add/update")
+	}
+	auditEvents, err := backend.GetAuditEvents(ctx, 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(auditEvents) == 0 {
+		t.Fatal("expected audit events after add/update")
+	}
+
+	snapshot, err := backend.HealthSnapshot(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if snapshot.TotalMemories != 3 || snapshot.AuditEvents == 0 {
+		t.Fatalf("unexpected health snapshot: %#v", snapshot)
+	}
+}

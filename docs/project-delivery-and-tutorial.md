@@ -1,251 +1,164 @@
-# Project Delivery Record and Complete Tutorial
+# Project Delivery Record and Tutorial
 
 [English](project-delivery-and-tutorial.md) | [简体中文](zh-CN/project-delivery-and-tutorial.md)
 
-Date: `2026-03-24`
+Date: `2026-03-25`
 
 ## 1. Purpose
 
 This document answers two practical questions:
 
-1. What has been built so far?
-2. How should someone run, validate, demo, and extend the project?
-
-It acts as a delivery record, a long-form repository guide, a demo script companion, and a high-level index for future work.
+1. What is already implemented in the repository today?
+2. How should someone run, validate, demo, and extend it?
 
 ## 2. Project Goal
 
-`agent-memory` is a zero-config, traceable, MCP-native long-term memory engine for agents.
+`agent-memory` is a local-first, traceable, MCP-native long-term memory engine for agents.
 
-- Installation: `pip install`
-- Default storage: local `SQLite`
-- Core capabilities:
-  - long-term memory storage
-  - intent-aware retrieval
-  - causal tracing
-  - conflict detection
-  - adaptive forgetting
-  - memory health monitoring
-  - MCP tool integration
+It now spans two execution modes:
 
-The project is positioned as an agent memory system rather than a generic vector database.
-
-Naming:
-
-- GitHub repository: `agent-memory`
-- PyPI distribution: `agent-memory-engine`
-- CLI command: `agent-memory`
+- embedded mode through the Python `MemoryClient`
+- service mode through the Go server over REST and gRPC
 
 ## 3. What Has Been Completed
 
 ### 3.1 Core capabilities
 
-**Storage**
+**Python intelligence layer**
 
-- `SQLiteBackend` with schema bootstrap and WAL mode
-- Core tables for memories, vectors, entities, relations, evolution logs, audit logs, and metadata
-- FTS5 full-text search plus schema indexes for common filters and trace paths
+- `MemoryClient` as the unified SDK entrypoint
+- embedding provider, entity extractor, conversation pipeline, conflict detector, trust scorer, forgetting policy, and governance helpers
+- MCP server with 11 tools
 
-**Retrieval**
+**Go service layer**
 
-- Semantic search with `sqlite-vec` support and a safe cosine-scan fallback
-- Full-text search, entity lookup, and causal ancestor traversal
-- Rule-based intent routing
-- Reciprocal Rank Fusion for multi-strategy ranking
+- SQLite storage engine in `go-server/internal/storage/sqlite.go`
+- 18 gRPC RPCs from `proto/memory/v1/storage_service.proto`
+- 19 REST operations including `/health`, `/metrics`, and `/api/v1/info`
+- auth hooks for API Key and JWT
+- Prometheus metrics, `slog`, tracing bootstrap, and graceful shutdown
+- lightweight Go CLI via Cobra
 
-**Governance**
+**Retrieval and governance**
 
-- Health reporting
-- Conflict detection
-- Forgetting policy
-- Consolidation planning
-- Audit and evolution inspection
-- JSONL export and import
-
-**Interfaces**
-
-- Python SDK via `MemoryClient`
-- CLI via `agent-memory`
-- MCP server via `agent_memory.interfaces.mcp_server`
-- REST adapter in `rest_api.py`
-
-**Intelligence layer**
-
-- Conversation-to-memory extraction pipeline
-- LLM-first extraction with heuristic fallback
-- Lightweight OpenAI and Ollama client adapters
+- semantic, full-text, entity, and causal-trace retrieval
+- rule-based intent router
+- Reciprocal Rank Fusion
+- contradiction edges, audit log, evolution log, JSONL export, and health snapshots
 
 ### 3.2 Engineering work
 
-**Project foundation**
-
-- `.gitignore`
-- `LICENSE`
-- GitHub Actions CI in `.github/workflows/ci.yml`
-
 **Testing**
 
-- shared fixtures in `tests/conftest.py`
-- deterministic dummy embeddings for stable test runs
-- MCP regression coverage
+- existing Python test suite remains in place
+- Go coverage now includes orchestrator, auth, config, governance, storage, forgetting, and trust tests
+- Go benchmark coverage now includes storage, router, and orchestrator benchmarks
 
-**Examples**
+**Build and packaging**
 
-- `examples/demo_cross_session.py`
-- `examples/interactive_chat.py`
-- `examples/mcp_server.py`
+- Docker Compose in `deploy/docker-compose.yml`
+- multi-stage Go container in `deploy/Dockerfile.go-server`
+- Python container in `deploy/Dockerfile.python-ai`
+- CI now runs Python tests/build plus `go test ./...` and `go test -race ./...`
 
-**Benchmarking**
+**Performance assets**
 
-- synthetic LOCOMO-Lite dataset expansion
-- `benchmarks/locomo_lite/evaluate.py`
-- generated benchmark artifact in `benchmarks/locomo_lite/latest_results.json`
+- `benchmarks/compare_go_python.py`
+- `benchmarks/k6/http-load.js`
+- `benchmarks/k6/grpc-load.js`
 
-**Documentation**
+### 3.3 Important fixes and additions in this delivery round
 
-- polished `README.md`
-- `CHANGELOG.md`
-- benchmark, MCP, release, and delivery docs
-- expansion review in `docs/plans/2026-03-24-agent-memory-expansion-review.md`
-
-**Publishing**
-
-- git initialization and GitHub publishing
-- built artifacts:
-  - `dist/agent_memory_engine-0.2.1-py3-none-any.whl`
-  - `dist/agent_memory_engine-0.2.1.tar.gz`
-- GitHub Releases
-- PyPI publishing
-
-### 3.3 Important fixes made during delivery
-
-**SQLite thread safety for MCP**
-
-- Symptom: MCP calls failed with SQLite thread-binding errors
-- Fix: use `check_same_thread=False`
-
-**Embedding JSON serialization**
-
-- Symptom: `numpy.float32` embeddings could not be serialized cleanly
-- Fix: normalize embedding values to native Python `float`
-
-**Slow and unstable test startup**
-
-- Symptom: tests could trigger local model downloads
-- Fix: use dummy embedding providers in `tests/conftest.py`
-
-**MCP import-time warnings**
-
-- Symptom: importing interface modules could emit startup noise
-- Fix: switch to lazy exports in `interfaces/__init__.py`
+- added `/api/v1/info` for version, build, runtime, and uptime inspection
+- added dedicated Go tests for auth, config, governance, orchestrator, storage edge cases, forgetting, and trust
+- added native Go benchmarks and Python-vs-Go comparison tooling
+- rebuilt the documentation system around `docs/teaching/`
 
 ## 4. Current Completion Status
 
-From a delivery perspective, the project is already complete enough to be run, demoed, tested, packaged, and published.
+The repository is now suitable for:
 
-**Already complete**
-
-- local run path
-- storage and retrieval
+- local SDK usage
+- service deployment
+- REST / gRPC demos
 - MCP integration
-- benchmark workflow
-- test suite
-- packaging
-- demo scripts
+- benchmark and comparison runs
+- interview walkthroughs backed by dedicated teaching docs
 
-**Still worth deepening**
+Areas still worth deepening later:
 
-- temporal retrieval semantics
-- consolidation quality
-- extraction post-processing and deduplication
-- full `OpenAIEmbeddingProvider` integration
-- migrations, multi-tenancy, and observability
+- server-side vector acceleration beyond cosine scan
+- multi-tenant isolation
+- richer conflict adjudication
+- scheduled governance jobs
 
 ## 5. Repository Layout
 
 ```text
 agent-memory/
-├── .github/workflows/ci.yml
 ├── benchmarks/
-│   ├── bench_retrieval.py
-│   ├── bench_storage.py
+│   ├── compare_go_python.py
+│   ├── k6/
 │   └── locomo_lite/
+├── deploy/
 ├── docs/
-│   ├── benchmark-results.md
-│   ├── mcp-integration.md
-│   ├── project-delivery-and-tutorial.md
-│   ├── release-and-pypi.md
-│   └── plans/
-├── examples/
+│   ├── teaching/
+│   └── zh-CN/
+├── go-server/
+├── proto/
 ├── src/agent_memory/
 └── tests/
 ```
 
 ## 6. How to Run the Project
 
-Install from PyPI:
+### Embedded mode
 
 ```bash
 pip install agent-memory-engine
+agent-memory store "User prefers SQLite for local-first agents." --source-id demo
+agent-memory search "Why SQLite?"
 ```
 
-Run from source:
+### Service mode from source
 
 ```bash
 git clone https://github.com/bakebakebakebake/agent-memory.git
 cd agent-memory
 python -m venv .venv
 source .venv/bin/activate
-pip install -e '.[dev]'
-```
-
-Basic CLI validation:
-
-```bash
-agent-memory store "User prefers SQLite for local-first agents." --source-id demo
-agent-memory search "What database does the user prefer?"
-agent-memory health
+pip install -e '.[dev,remote]'
+cd go-server && go run ./cmd/server
 ```
 
 ## 7. How to Validate the Project
 
-**Run tests**
+```bash
+cd go-server && go test ./...
+```
+
+```bash
+cd go-server && go test -run=^$ -bench=. ./...
+```
 
 ```bash
 .venv/bin/python -m pytest -q
 ```
 
-**Build packages**
-
 ```bash
-.venv/bin/python -m build
-```
-
-**Run benchmark**
-
-```bash
-.venv/bin/python benchmarks/locomo_lite/evaluate.py
-cat benchmarks/locomo_lite/latest_results.json
-```
-
-**Run MCP server**
-
-```bash
-pip install -e .[mcp]
-python -m agent_memory.interfaces.mcp_server
+PYTHONPATH=src .venv/bin/python benchmarks/compare_go_python.py --scales 100 1000
 ```
 
 ## 8. Suggested Demo Flow
 
-For a short product demo:
-
-1. store a preference memory
-2. ask a factual recall question
+1. store one preference memory
+2. ask a factual question
 3. ask a causal question
-4. inspect the trace graph
-5. inspect the health report
+4. open the trace graph
+5. inspect `/health`
+6. inspect `/api/v1/info`
 
-Recommended prompts:
+Suggested prompts:
 
 - “Please remember that I prefer SQLite for local-first agent projects.”
 - “What database do I prefer?”
@@ -253,30 +166,17 @@ Recommended prompts:
 - “Show the trace for that memory.”
 - “Show the current memory health report.”
 
-## 9. Release Status
+## 9. Key Documentation
 
-Current public release state:
-
-- GitHub Release: `v0.1.0`
-- GitHub Release: `v0.1.1`
-- GitHub Release: `v0.2.0`
-- GitHub Release: `v0.2.1`
-- PyPI package: `agent-memory-engine==0.2.1`
-
-Key references:
-
-- `CHANGELOG.md`
-- `docs/release-and-pypi.md`
-- `docs/benchmark-results.md`
+- `docs/teaching/01-project-overview.md`
+- `docs/teaching/02-architecture-deep-dive.md`
+- `docs/teaching/03-algorithm-guide.md`
+- `docs/teaching/11-performance-benchmarking.md`
+- `docs/teaching/12-interview-guide.md`
 
 ## 10. Recommended Next Steps
 
-The project is already suitable for public presentation, but the clearest next improvements are:
-
-- make `sqlite-vec` status observable in health reports
-- improve structured conversation extraction and deduplication
-- deepen temporal retrieval
-- strengthen consolidation into topic-level summaries
-- add migrations and multi-tenant isolation
-
-For the longer roadmap, see `docs/plans/2026-03-24-agent-memory-expansion-review.md`.
+- optimize Go vector-search hot path
+- add multi-tenant isolation
+- schedule governance tasks as recurring jobs
+- deepen service-side operational tooling

@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  python:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,3 +23,14 @@ jobs:
       - run: pip install -e '.[dev,remote]'
       - run: pytest -q
       - run: python -m build
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go-server/go.mod
+          cache-dependency-path: go-server/go.sum
+      - run: cd go-server && go test ./...
+      - run: cd go-server && go test -race ./...

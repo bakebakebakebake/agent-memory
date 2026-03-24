@@ -1,9 +1,7 @@
-# Agent Memory Engine Architecture
+# Architecture
 
-This repository now supports two execution modes:
+This page is now a lightweight jump page.
 
-- Embedded mode: Python `MemoryClient` talks to `SQLiteBackend` directly.
-- Service mode: Python `MemoryClient` talks to the Go storage service over REST or gRPC through `RemoteBackend`.
-
-The Go service owns SQLite storage, schema migration, REST, gRPC, fused retrieval orchestration, auth hooks, metrics, tracing bootstrap, and a Cobra CLI.
-The Python service keeps embeddings, extraction, MCP, and SDK ergonomics.
+- The full architecture walkthrough lives in `docs/teaching/02-architecture-deep-dive.md`
+- That document covers embedded mode, service mode, module boundaries, auth, observability, and graceful shutdown
+- Start with `docs/teaching/01-project-overview.md` if you need repository context first

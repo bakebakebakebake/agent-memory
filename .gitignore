@@ -12,3 +12,4 @@ build/
 *.sqlite-*
 .env
 .DS_Store
+docs/teaching/
